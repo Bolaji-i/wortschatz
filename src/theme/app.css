@@ -1,0 +1,157 @@
+:root {
+  --paper: #fbf6ee;
+  --card: #ffffff;
+  --ink: #221e1a;
+  --ink-soft: #6b625a;
+  --line: #ece3d6;
+  --amber: #f0a43a;
+  --amber-soft: #fdf0dc;
+  --der: #3566d6;
+  --die: #d4473a;
+  --das: #2c9465;
+  --der-soft: #e7eefc;
+  --die-soft: #fbe9e7;
+  --das-soft: #e3f4ec;
+  --ok: #2c9465;
+  --bad: #d4473a;
+  --serif: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+
+  --ion-font-family: -apple-system, 'Roboto', 'Segoe UI', system-ui, sans-serif;
+  --ion-background-color: var(--paper);
+  --ion-text-color: var(--ink);
+  --ion-toolbar-background: var(--paper);
+  --ion-tab-bar-background: var(--card);
+  --ion-tab-bar-color: #a59a8f;
+  --ion-tab-bar-color-selected: var(--ink);
+  --ion-item-background: var(--card);
+  --ion-border-color: var(--line);
+
+  --ion-color-primary: #221e1a;
+  --ion-color-primary-rgb: 34, 30, 26;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #1e1a17;
+  --ion-color-primary-tint: #383431;
+
+  --ion-color-secondary: #f0a43a;
+  --ion-color-secondary-rgb: 240, 164, 58;
+  --ion-color-secondary-contrast: #221e1a;
+  --ion-color-secondary-contrast-rgb: 34, 30, 26;
+  --ion-color-secondary-shade: #d39033;
+  --ion-color-secondary-tint: #f2ad4e;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #171513;
+    --card: #221f1c;
+    --ink: #f3ece3;
+    --ink-soft: #a89e93;
+    --line: #34302b;
+    --amber-soft: #3a2c17;
+    --der: #7fa2f2;
+    --die: #f08679;
+    --das: #62c897;
+    --der-soft: #1f2a42;
+    --die-soft: #3d2320;
+    --das-soft: #1b3428;
+
+    --ion-background-color: var(--paper);
+    --ion-text-color: var(--ink);
+    --ion-toolbar-background: var(--paper);
+    --ion-tab-bar-background: var(--card);
+    --ion-tab-bar-color: #7d746a;
+    --ion-tab-bar-color-selected: var(--ink);
+    --ion-item-background: var(--card);
+
+    --ion-color-primary: #f3ece3;
+    --ion-color-primary-rgb: 243, 236, 227;
+    --ion-color-primary-contrast: #171513;
+    --ion-color-primary-contrast-rgb: 23, 21, 19;
+    --ion-color-primary-shade: #d6d0c8;
+    --ion-color-primary-tint: #f4eee6;
+  }
+}
+
+ion-toolbar {
+  --border-width: 0 !important;
+}
+ion-header.header-md {
+  box-shadow: none;
+}
+
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 8px 16px 32px;
+}
+
+.serif {
+  font-family: var(--serif);
+}
+
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.big-title {
+  font-family: var(--serif);
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.1;
+  margin: 4px 0 0;
+  letter-spacing: -0.01em;
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.muted {
+  color: var(--ink-soft);
+}
+
+.art-der { color: var(--der); }
+.art-die { color: var(--die); }
+.art-das { color: var(--das); }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--line);
+  color: var(--ink-soft);
+}
+
+.chip.bg-der { background: var(--der-soft); color: var(--der); }
+.chip.bg-die { background: var(--die-soft); color: var(--die); }
+.chip.bg-das { background: var(--das-soft); color: var(--das); }
+
+ion-button {
+  --border-radius: 14px;
+  text-transform: none;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+ion-textarea.sentence {
+  --background: var(--paper);
+  --padding-start: 14px;
+  --padding-end: 14px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  font-size: 17px;
+}

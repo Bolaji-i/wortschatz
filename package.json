@@ -1,0 +1,36 @@
+{
+  "name": "wortschatz",
+  "private": true,
+  "version": "1.2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run check-words && vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit",
+    "android": "npm run build && npx cap sync android && npx cap open android",
+    "sync": "npm run build && npx cap sync android",
+    "check-words": "node --experimental-strip-types --no-warnings scripts/check-words.ts"
+  },
+  "dependencies": {
+    "@capacitor-community/text-to-speech": "^8.0.2",
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/local-notifications": "^8.3.1",
+    "@capacitor/preferences": "^8.0.1",
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "@ionic/vue": "^9.0.8",
+    "@ionic/vue-router": "^9.0.8",
+    "ionicons": "^8.1.0",
+    "vue": "^3.5.44",
+    "vue-router": "^5.4.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.3",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "typescript": "5.9",
+    "vite": "^8.3.4",
+    "vue-tsc": "^3.3.13"
+  }
+}
