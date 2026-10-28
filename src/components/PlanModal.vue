@@ -37,18 +37,14 @@
 import { IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, modalController } from '@ionic/vue'
 import StudyPlan from './StudyPlan.vue'
 import { applyPlan, state } from '@/lib/store'
-import { syncReminder } from '@/lib/device'
+import { refreshReminder } from '@/lib/device'
 import { UI_LANGS, t } from '@/lib/i18n'
 
 defineProps<{ welcome?: boolean }>()
 
-let reminderTimer: ReturnType<typeof setTimeout> | undefined
 function onChange() {
   applyPlan()
-  if (state.settings.reminderOn) {
-    clearTimeout(reminderTimer)
-    reminderTimer = setTimeout(() => syncReminder().catch(() => {}), 800)
-  }
+  refreshReminder()
 }
 
 function done() {

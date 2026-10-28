@@ -31,11 +31,11 @@
         <section class="panel">
           <div class="row">
             <h3>{{ t('reminder') }}</h3>
-            <ion-toggle :checked="state.settings.reminderOn" @ion-change="setReminder($event.detail.checked)" :aria-label="t('reminder')" />
+            <ion-toggle :checked="state.settings.reminderOn" @ion-change="setReminder" :aria-label="t('reminder')" />
           </div>
           <div v-if="state.settings.reminderOn" class="row time">
             <span>{{ t('time') }}</span>
-            <input v-model="state.settings.reminderTime" type="time" @change="syncReminderWithToast" />
+            <input v-model="state.settings.reminderTime" type="time" @change="syncReminderWithToast()" />
           </div>
           <p v-if="!isNative" class="hint">{{ t('remindersNativeOnly') }}</p>
         </section>
@@ -147,7 +147,7 @@ import { bicycleOutline, key, volumeHighOutline, walkOutline } from 'ionicons/ic
 import StudyPlan from '@/components/StudyPlan.vue'
 import { WORDS } from '@/data/words'
 import { applyPlan, exportData, importData, resetProgress, state } from '@/lib/store'
-import { isNative, platform, speak, syncReminder } from '@/lib/device'
+import { isNative, platform, refreshReminder, speak, syncReminder } from '@/lib/device'
 import { AI_PROVIDERS, PROVIDERS, getAiFeedback, listModels } from '@/lib/ai'
 import { UI_LANGS, t, type UiLang } from '@/lib/i18n'
 import { APP_VERSION } from '@/lib/app'
@@ -164,7 +164,7 @@ async function openPrivacy() {
 function setLang(l: UiLang) {
   state.settings.uiLang = l
   // The reminder text is stored in the notification, so refresh it in the new language
-  if (state.settings.reminderOn) syncReminder().catch(() => {})
+  refreshReminder()
 }
 
 async function toast(message: string, color = 'primary') {
@@ -172,24 +172,24 @@ async function toast(message: string, color = 'primary') {
   await el.present()
 }
 
-let reminderTimer: ReturnType<typeof setTimeout> | undefined
 /** Levels or daily goal changed: update today's words and the reminder text. */
 function onPlanChange() {
   applyPlan()
-  if (state.settings.reminderOn) {
-    clearTimeout(reminderTimer)
-    reminderTimer = setTimeout(() => syncReminder().catch(() => {}), 800)
-  }
+  refreshReminder()
 }
 
-async function setReminder(on: boolean) {
-  state.settings.reminderOn = on
-  await syncReminderWithToast()
+async function setReminder(e: CustomEvent<{ checked: boolean }>) {
+  state.settings.reminderOn = e.detail.checked
+  // Only switching the reminder on asks for permission.
+  await syncReminderWithToast({ ask: e.detail.checked })
+  // ion-toggle keeps its own checked state; make it match if permission was refused.
+  const el = e.target as HTMLIonToggleElement
+  if (el.checked !== state.settings.reminderOn) el.checked = state.settings.reminderOn
 }
 
-async function syncReminderWithToast() {
+async function syncReminderWithToast({ ask = false } = {}) {
   try {
-    const ok = await syncReminder()
+    const ok = await syncReminder({ ask })
     if (!ok) {
       state.settings.reminderOn = false
       toast(platform === 'ios' ? t('notifBlockedIos') : t('notifBlockedAndroid'), 'warning')

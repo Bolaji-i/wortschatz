@@ -36,14 +36,18 @@ export async function speak(text: string) {
 
 const REMINDER_ID = 1001
 
-/** Schedules (or cancels) the daily reminder. Returns false if permission was denied. */
-export async function syncReminder(): Promise<boolean> {
+/**
+ * Schedules (or cancels) the daily reminder. Returns false if notifications aren't allowed.
+ * Only asks for permission when `ask` is set — i.e. when the user switches the reminder on.
+ */
+export async function syncReminder({ ask = false } = {}): Promise<boolean> {
   if (!isNative) return true
   await LocalNotifications.cancel({ notifications: [{ id: REMINDER_ID }] }).catch(() => {})
   if (!state.settings.reminderOn) return true
 
   const perm = await LocalNotifications.checkPermissions()
   if (perm.display !== 'granted') {
+    if (!ask) return false
     const req = await LocalNotifications.requestPermissions()
     if (req.display !== 'granted') return false
   }
@@ -60,4 +64,19 @@ export async function syncReminder(): Promise<boolean> {
     ]
   })
   return true
+}
+
+let refreshTimer: ReturnType<typeof setTimeout> | undefined
+/**
+ * Background refresh after the plan or app language changes (the reminder text mentions
+ * the daily goal). Never prompts; if notifications were turned off in system settings,
+ * the reminder switch goes off so it shows what will actually happen.
+ */
+export function refreshReminder() {
+  if (!state.settings.reminderOn) return
+  clearTimeout(refreshTimer)
+  refreshTimer = setTimeout(async () => {
+    const ok = await syncReminder().catch(() => true)
+    if (!ok) state.settings.reminderOn = false
+  }, 800)
 }
