@@ -6,6 +6,13 @@ android/.gradle
 android/local.properties
 android/app/src/main/assets/public
 *.keystore
+# Signing secrets – never commit these
+*.jks
+upload-keystore*
+*.p8
+*.p12
+*.mobileprovision
+*service-account*.json
 .idea
 .DS_Store
 !android/app/wortschatz-debug.jks
