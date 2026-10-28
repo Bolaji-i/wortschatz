@@ -1,0 +1,218 @@
+name: Build Android & iOS apps
+
+# Every push to main builds:
+#   • Wortschatz.apk  – Android test build you can install directly (GitHub release)
+#   • Wortschatz.ipa  – unsigned iPhone build for sideloading (GitHub release)
+# and, once the store secrets are set up (see store/PUBLISHING.md):
+#   • SuperWortschatz.aab – signed Android App Bundle for Google Play (+ optional automatic upload)
+#   • an App Store build uploaded straight to App Store Connect / TestFlight
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  android:
+    name: Android (APK + Play Store bundle)
+    runs-on: ubuntu-latest
+    env:
+      HAS_UPLOAD_KEY: ${{ secrets.ANDROID_UPLOAD_KEYSTORE_BASE64 != '' }}
+      HAS_PLAY_ACCOUNT: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Install dependencies
+        run: npm ci
+      - name: Build web app and copy it into Android
+        run: |
+          npm run build
+          npx cap sync android
+
+      - name: Build test APK (installs over earlier test builds)
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon
+          cp app/build/outputs/apk/release/app-release.apk ../Wortschatz.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android
+          path: Wortschatz.apk
+
+      - name: Build Play Store bundle (signed with your upload key)
+        if: env.HAS_UPLOAD_KEY == 'true'
+        working-directory: android
+        env:
+          UPLOAD_KEYSTORE_FILE: ${{ runner.temp }}/upload-keystore.jks
+          UPLOAD_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_UPLOAD_KEYSTORE_PASSWORD }}
+          UPLOAD_KEY_ALIAS: ${{ secrets.ANDROID_UPLOAD_KEY_ALIAS }}
+          UPLOAD_KEY_PASSWORD: ${{ secrets.ANDROID_UPLOAD_KEY_PASSWORD }}
+        run: |
+          echo "${{ secrets.ANDROID_UPLOAD_KEYSTORE_BASE64 }}" | base64 --decode > "$UPLOAD_KEYSTORE_FILE"
+          ./gradlew bundleRelease --no-daemon
+          cp app/build/outputs/bundle/release/app-release.aab ../SuperWortschatz.aab
+          rm -f "$UPLOAD_KEYSTORE_FILE"
+      - uses: actions/upload-artifact@v4
+        if: env.HAS_UPLOAD_KEY == 'true'
+        with:
+          name: play-store-bundle
+          path: SuperWortschatz.aab
+
+      # Optional: after the first manual upload in the Play Console, every build goes to internal testing automatically
+      - name: Upload to Google Play (internal testing)
+        if: env.HAS_UPLOAD_KEY == 'true' && env.HAS_PLAY_ACCOUNT == 'true'
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.voltron.wortschatz
+          releaseFiles: SuperWortschatz.aab
+          track: internal
+          # "draft" while the app has never been published; change to "completed" afterwards
+          status: ${{ vars.PLAY_RELEASE_STATUS || 'draft' }}
+
+  ios:
+    name: iOS app (unsigned .ipa)
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build web app and copy it into iOS
+        run: |
+          npm run build
+          npx cap sync ios
+      - name: Build the iPhone app (without signing)
+        run: |
+          xcodebuild \
+            -project ios/App/App.xcodeproj \
+            -scheme App \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            CURRENT_PROJECT_VERSION=${{ github.run_number }} \
+            build
+      - name: Package as .ipa
+        run: |
+          mkdir Payload
+          cp -R build/Build/Products/Release-iphoneos/App.app Payload/
+          zip -qry Wortschatz.ipa Payload
+          ls -lh Wortschatz.ipa
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios
+          path: Wortschatz.ipa
+
+  appstore:
+    name: iOS App Store upload (TestFlight)
+    # macos-26 comes with Xcode 26 – Apple requires the iOS 26 SDK for uploads
+    runs-on: macos-26
+    env:
+      HAS_ASC_KEY: ${{ secrets.APPSTORE_API_PRIVATE_KEY != '' }}
+    steps:
+      - name: Check App Store secrets
+        if: env.HAS_ASC_KEY != 'true'
+        run: echo "App Store secrets not set up yet – skipping. See store/PUBLISHING.md."
+      - uses: actions/checkout@v4
+        if: env.HAS_ASC_KEY == 'true'
+      - uses: actions/setup-node@v4
+        if: env.HAS_ASC_KEY == 'true'
+        with:
+          node-version: 22
+          cache: npm
+      - name: Build web app and copy it into iOS
+        if: env.HAS_ASC_KEY == 'true'
+        run: |
+          npm ci
+          npm run build
+          npx cap sync ios
+      - name: Archive, sign and upload to App Store Connect
+        if: env.HAS_ASC_KEY == 'true'
+        env:
+          ASC_KEY_ID: ${{ secrets.APPSTORE_API_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.APPSTORE_API_ISSUER_ID }}
+          ASC_PRIVATE_KEY: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          KEY_PATH="$RUNNER_TEMP/AuthKey_$ASC_KEY_ID.p8"
+          printf '%s' "$ASC_PRIVATE_KEY" > "$KEY_PATH"
+          AUTH=(-allowProvisioningUpdates -authenticationKeyPath "$KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID")
+
+          # Cloud-managed signing: Xcode creates the certificate and profile automatically
+          xcodebuild archive \
+            -project ios/App/App.xcodeproj \
+            -scheme App \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/App.xcarchive" \
+            "${AUTH[@]}" \
+            DEVELOPMENT_TEAM="$TEAM_ID" \
+            CODE_SIGN_STYLE=Automatic \
+            CURRENT_PROJECT_VERSION=${{ github.run_number }}
+
+          cat > "$RUNNER_TEMP/ExportOptions.plist" <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>$TEAM_ID</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>uploadSymbols</key><true/>
+            <key>manageAppVersionAndBuildNumber</key><false/>
+          </dict>
+          </plist>
+          PLIST
+
+          xcodebuild -exportArchive \
+            -archivePath "$RUNNER_TEMP/App.xcarchive" \
+            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
+            -exportPath "$RUNNER_TEMP/export" \
+            "${AUTH[@]}"
+          rm -f "$KEY_PATH"
+          echo "Uploaded build ${{ github.run_number }} to App Store Connect – it appears in TestFlight after processing (10–30 min)."
+
+  release:
+    name: Publish release
+    needs: [android, ios]
+    # publish whatever succeeded, so one platform failing doesn't block the other
+    if: always() && (needs.android.result == 'success' || needs.ios.result == 'success')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: android
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: ios
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ls -lh
+          TAG="build-${{ github.run_number }}"
+          FILES=()
+          for f in Wortschatz.apk Wortschatz.ipa; do [ -f "$f" ] && FILES+=("$f"); done
+          gh release create "$TAG" "${FILES[@]}" \
+            --repo "${{ github.repository }}" \
+            --title "Super Wortschatz build ${{ github.run_number }}" \
+            --notes "Test builds. Android: open this page on your phone and tap Wortschatz.apk. iPhone: install Wortschatz.ipa with Sideloadly or AltStore (see README). Store builds go to Google Play / App Store Connect." \
+            --latest
