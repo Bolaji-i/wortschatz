@@ -18,7 +18,6 @@ N die Annahme, Annahmen | assumption; acceptance | Die Annahme war leider falsch
 N der Konsens, Konsense | consensus | Wir haben keinen Konsens gefunden. | We didn’t reach a consensus.
 N die Mehrheit, Mehrheiten | majority | Die Mehrheit hat dagegen gestimmt. | The majority voted against it.
 N die Minderheit, Minderheiten | minority | Nur eine Minderheit ist dafür. | Only a minority is in favour.
-N das Beispiel, Beispiele | example | Kannst du ein Beispiel nennen? | Can you give an example?
 V argumentieren (argumentiert, argumentierte, hat argumentiert) | to argue (a case) | Sie argumentiert sehr überzeugend. | She argues very convincingly.
 V begründen (begründet, begründete, hat begründet) | to justify, to give reasons | Bitte begründen Sie Ihre Meinung. | Please give reasons for your opinion.
 V einwenden (wendet ein, wandte ein, hat eingewandt) | to object | Dagegen ist nichts einzuwenden. | There’s nothing to object to. | +einzuwend, wend ein, wandte ein, eingewandt

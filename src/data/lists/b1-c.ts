@@ -16,7 +16,6 @@ V achten (achtet, achtete, hat geachtet) | to pay attention | Achte bitte auf di
 V aufpassen (passt auf, passte auf, hat aufgepasst) | to watch out; to look after | Pass auf, das Auto! | Watch out, the car! | aufpassen auf + Akk.
 V bitten (bittet, bat, hat gebeten) | to ask (for), to request | Ich bitte dich um einen Gefallen. | I’m asking you for a favour. | bitten um + Akk.
 V danken (dankt, dankte, hat gedankt) | to thank | Ich danke Ihnen für Ihre Hilfe. | I thank you for your help. | danken + Dativ für + Akk.
-V denken (denkt, dachte, hat gedacht) | to think | Ich denke oft an meine Kindheit. | I often think about my childhood. | denken an + Akk.
 V diskutieren (diskutiert, diskutierte, hat diskutiert) | to discuss | Wir haben lange über das Thema diskutiert. | We discussed the topic for a long time. | diskutieren über + Akk.
 V handeln (handelt, handelte, hat gehandelt) | to act; to trade | Wir müssen jetzt handeln. | We have to act now. | es handelt sich um = it is about
 V hindern (hindert, hinderte, hat gehindert) | to prevent, to hinder | Der Regen hindert uns nicht am Spazierengehen. | The rain doesn’t stop us from going for a walk. | hindern an + Dativ
@@ -24,10 +23,8 @@ V klagen (klagt, klagte, hat geklagt) | to complain; to sue | Er klagt ständig 
 V nachfragen (fragt nach, fragte nach, hat nachgefragt) | to ask, to enquire | Ich frage morgen nochmal nach. | I’ll ask again tomorrow.
 V protestieren (protestiert, protestierte, hat protestiert) | to protest | Die Anwohner protestieren gegen den Lärm. | The residents are protesting against the noise. | protestieren gegen + Akk.
 V reagieren (reagiert, reagierte, hat reagiert) | to react | Wie hat er auf die Nachricht reagiert? | How did he react to the news? | reagieren auf + Akk.
-V rechnen (rechnet, rechnete, hat gerechnet) | to calculate; to expect | Mit so viel Verkehr habe ich nicht gerechnet. | I didn’t expect so much traffic. | rechnen mit + Dativ
 V riechen (riecht, roch, hat gerochen) | to smell | Hier riecht es nach frischem Brot. | It smells of fresh bread here. | riechen nach + Dativ
 V sorgen (sorgt, sorgte, hat gesorgt) | to take care, to ensure | Wer sorgt für die Getränke? | Who is taking care of the drinks? | sorgen für + Akk.
-V sprechen (spricht, sprach, hat gesprochen) | to speak | Wir haben über die Zukunft gesprochen. | We talked about the future.
 V sterben (stirbt, starb, ist gestorben) | to die | Sein Großvater ist letztes Jahr gestorben. | His grandfather died last year. | sterben an + Dativ
 V träumen (träumt, träumte, hat geträumt) | to dream | Ich träume von einem Haus am See. | I dream of a house by the lake. | träumen von + Dativ
 V verfügen (verfügt, verfügte, hat verfügt) | to have (at one’s disposal) | Die Wohnung verfügt über einen großen Balkon. | The flat has a large balcony. | verfügen über + Akk.
@@ -51,13 +48,11 @@ V betreten (betritt, betrat, hat betreten) | to enter | Betreten der Baustelle v
 V beweisen (beweist, bewies, hat bewiesen) | to prove | Kannst du das beweisen? | Can you prove that?
 V bewerten (bewertet, bewertete, hat bewertet) | to rate, to assess | Wie bewertest du das Restaurant? | How do you rate the restaurant?
 V darstellen (stellt dar, stellte dar, hat dargestellt) | to represent, to depict | Die Grafik stellt die Entwicklung dar. | The graph shows the development.
-V dürfen (darf, durfte, hat gedurft) | to be allowed to | Darf ich hier rauchen? | Am I allowed to smoke here? | +darf, durf
 V empfehlen (empfiehlt, empfahl, hat empfohlen) | to recommend | Kannst du mir ein gutes Buch empfehlen? | Can you recommend a good book to me?
 V empfangen (empfängt, empfing, hat empfangen) | to receive | Wir wurden sehr herzlich empfangen. | We were received very warmly.
 V entstehen (entsteht, entstand, ist entstanden) | to arise, to be created | Hier entsteht ein neues Wohngebiet. | A new residential area is being built here.
 V erfahren (erfährt, erfuhr, hat erfahren) | to find out, to learn | Ich habe es erst gestern erfahren. | I only found out yesterday.
 V erfinden (erfindet, erfand, hat erfunden) | to invent | Wer hat das Auto erfunden? | Who invented the car?
-V ergänzen (ergänzt, ergänzte, hat ergänzt) | to add, to complete | Ergänzen Sie die Sätze. | Complete the sentences.
 V erhalten (erhält, erhielt, hat erhalten) | to receive | Sie erhalten die Unterlagen per Post. | You will receive the documents by post.
 V erkennen (erkennt, erkannte, hat erkannt) | to recognise | Ich habe dich mit der neuen Frisur nicht erkannt. | I didn’t recognise you with your new haircut.
 V erleben (erlebt, erlebte, hat erlebt) | to experience | Im Urlaub haben wir viel erlebt. | We experienced a lot on holiday.
@@ -77,7 +72,6 @@ V prüfen (prüft, prüfte, hat geprüft) | to check, to examine | Bitte prüfen
 V schätzen (schätzt, schätzte, hat geschätzt) | to estimate; to value | Ich schätze, die Fahrt dauert zwei Stunden. | I estimate the journey takes two hours.
 V schweigen (schweigt, schwieg, hat geschwiegen) | to be silent | Er hat die ganze Zeit geschwiegen. | He was silent the whole time.
 V stimmen (stimmt, stimmte, hat gestimmt) | to be correct | Das stimmt nicht! | That’s not true!
-V treffen (trifft, traf, hat getroffen) | to meet; to hit | Ich treffe mich heute mit Freunden. | I’m meeting friends today.
 V überlegen (überlegt, überlegte, hat überlegt) | to consider, to think over | Ich überlege, ob ich den Job annehme. | I’m considering whether to take the job.
 V überraschen (überrascht, überraschte, hat überrascht) | to surprise | Wir wollen sie mit einer Party überraschen. | We want to surprise her with a party.
 V unternehmen (unternimmt, unternahm, hat unternommen) | to do (an activity) | Was wollen wir am Wochenende unternehmen? | What shall we do at the weekend?
@@ -93,14 +87,12 @@ V versprechen (verspricht, versprach, hat versprochen) | to promise | Ich verspr
 V verteilen (verteilt, verteilte, hat verteilt) | to distribute | Der Lehrer verteilt die Arbeitsblätter. | The teacher hands out the worksheets.
 V vorschlagen (schlägt vor, schlug vor, hat vorgeschlagen) | to suggest | Ich schlage vor, dass wir eine Pause machen. | I suggest we take a break.
 V wirken (wirkt, wirkte, hat gewirkt) | to have an effect; to seem | Die Tablette wirkt nach zwanzig Minuten. | The tablet takes effect after twenty minutes.
-V zählen (zählt, zählte, hat gezählt) | to count | Das Kind kann schon bis hundert zählen. | The child can already count to a hundred.
 V zugeben (gibt zu, gab zu, hat zugegeben) | to admit | Er hat seinen Fehler zugegeben. | He admitted his mistake.
 V zuhören (hört zu, hörte zu, hat zugehört) | to listen | Du hörst mir gar nicht zu! | You’re not listening to me at all!
 V zustimmen (stimmt zu, stimmte zu, hat zugestimmt) | to agree | Da stimme ich dir völlig zu. | I completely agree with you there. | zustimmen + Dativ
 
 # Bildung & Studium
 N das Studium, Studien | (university) studies | Nach dem Studium will ich im Ausland arbeiten. | After my studies I want to work abroad.
-N die Universität, Universitäten | university | Sie studiert an der Universität München. | She studies at the University of Munich.
 N das Semester, Semester | semester | Das Semester beginnt im Oktober. | The semester starts in October.
 N die Vorlesung, Vorlesungen | lecture | Die Vorlesung fällt heute aus. | Today’s lecture is cancelled.
 N der Abschluss, Abschlüsse | degree, qualification; conclusion | Er hat einen Abschluss in Informatik. | He has a degree in computer science.
@@ -108,8 +100,6 @@ N das Fach, Fächer | subject | Welches Fach unterrichtet sie? | Which subject d
 N das Wissen, — | knowledge | Wissen ist Macht. | Knowledge is power.
 N die Bildung, — | education | Bildung ist der Schlüssel zum Erfolg. | Education is the key to success.
 N das Stipendium, Stipendien | scholarship | Sie hat ein Stipendium für das Studium bekommen. | She got a scholarship for her studies.
-N die Bibliothek, Bibliotheken | library | Ich lerne am liebsten in der Bibliothek. | I prefer studying in the library.
-N das Wörterbuch, Wörterbücher | dictionary | Schau im Wörterbuch nach. | Look it up in the dictionary.
 N die Grammatik, — | grammar | Die Grammatik ist am Anfang schwer. | The grammar is difficult at the beginning.
 N das Niveau, Niveaus | level | Mein Deutsch ist auf B1-Niveau. | My German is at B1 level. | +niveau
 N die Muttersprache, Muttersprachen | mother tongue | Meine Muttersprache ist Yoruba. | My mother tongue is Yoruba.
@@ -143,7 +133,6 @@ N der Teil, Teile | part | Der erste Teil des Films war besser. | The first part
 N das Thema, Themen | topic | Lass uns das Thema wechseln. | Let’s change the subject.
 N die Regel, Regeln | rule | Keine Regel ohne Ausnahme. | No rule without exception.
 N das System, Systeme | system | Das deutsche System für Steuern ist kompliziert. | The German tax system is complicated.
-N die Idee, Ideen | idea | Das ist eine super Idee! | That’s a great idea!
 N der Plan, Pläne | plan | Hast du schon Pläne für Silvester? | Do you have plans for New Year’s Eve yet?
 N die Absprache, Absprachen | agreement, arrangement | Nach Absprache mit dem Chef kann ich früher gehen. | After arranging it with the boss I can leave earlier.
 N die Wirklichkeit, — | reality | In Wirklichkeit ist alles ganz anders. | In reality everything is quite different.
@@ -154,5 +143,4 @@ N die Ruhe, — | peace and quiet, calm | Lass mich in Ruhe! | Leave me alone!
 N die Not, Nöte | need, hardship | In der Not hilft man sich gegenseitig. | In times of need people help each other.
 N das Risiko, Risiken | risk | Das Risiko ist mir zu hoch. | The risk is too high for me.
 N die Chance, Chancen | chance | Das ist deine Chance! | This is your chance!
-N das Problem, Probleme | problem | Kein Problem, ich helfe dir. | No problem, I’ll help you.
 `

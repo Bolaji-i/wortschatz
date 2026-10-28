@@ -28,7 +28,6 @@ N die Versicherung, Versicherungen | insurance | Brauche ich eine Versicherung f
 N die Behörde, Behörden | public authority, office | Bei der Behörde musste ich zwei Stunden warten. | I had to wait two hours at the authorities’ office.
 N der Antrag, Anträge | application (form) | Den Antrag kann man auch online stellen. | You can also submit the application online. | einen Antrag stellen
 N die Frist, Fristen | deadline, time limit | Die Frist endet am Freitag. | The deadline ends on Friday.
-N die Nachricht, Nachrichten | message; (pl.) the news | Ich habe dir gestern eine Nachricht geschickt. | I sent you a message yesterday.
 N der Verkehr, — | traffic | Am Morgen ist auf der Straße viel Verkehr. | There is a lot of traffic on the road in the morning.
 N die Umwelt, — | environment | Fahrradfahren ist gut für die Umwelt. | Cycling is good for the environment.
 N die Gesellschaft, Gesellschaften | society; company | Die Gesellschaft verändert sich schnell. | Society is changing quickly.
@@ -73,7 +72,6 @@ A offensichtlich | obvious(ly) | Er hat offensichtlich keine Lust. | He obviousl
 A deutlich | clear(ly) | Bitte sprechen Sie etwas deutlicher. | Please speak a little more clearly.
 A gerecht | fair, just | Das finde ich nicht gerecht. | I don’t think that’s fair.
 A streng | strict | Mein Vater war früher sehr streng. | My father used to be very strict.
-A selbstständig | independent; self-employed | Seit einem Jahr arbeitet sie selbstständig. | She has been self-employed for a year.
 A großzügig | generous | Danke, das ist sehr großzügig von dir. | Thank you, that is very generous of you.
 A eifersüchtig | jealous | Er wird schnell eifersüchtig. | He gets jealous quickly.
 A erfolgreich | successful | Das Projekt war sehr erfolgreich. | The project was very successful.
@@ -81,7 +79,6 @@ A umständlich | complicated, cumbersome | Der Weg über die Behörde ist sehr u
 A fremd | foreign, strange, unfamiliar | Am Anfang war mir alles hier fremd. | At first everything here was unfamiliar to me.
 A gemein | mean, nasty | Das war gemein von dir! | That was mean of you!
 A häufig | frequent(ly) | Dieser Fehler kommt häufig vor. | This mistake occurs frequently.
-A selten | rare(ly) | Ich gehe selten ins Kino. | I rarely go to the cinema.
 D allerdings | however; admittedly | Das Hotel war schön, allerdings etwas laut. | The hotel was nice, though a bit noisy.
 D sowieso | anyway | Ich muss sowieso einkaufen gehen. | I have to go shopping anyway.
 D kaum | hardly, barely | Ich habe letzte Nacht kaum geschlafen. | I hardly slept last night.

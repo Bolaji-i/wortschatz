@@ -11,6 +11,7 @@
  *   A gefährlich | dangerous | …
  *   D trotzdem | nevertheless | …            (adverb)
  *   K obwohl | although | …                  (conjunction)
+ *   R wegen | because of | … | … | wegen + Genitiv   (preposition)
  *   P Bescheid sagen | to let someone know | … | … | +bescheid
  *
  * Optional 5th/6th fields: a usage tip, and/or "+form1, form2" = extra word starts
@@ -18,9 +19,9 @@
  * Lines starting with # are comments.
  */
 
-export type Level = 'A2' | 'B1' | 'B2' | 'C1'
-export const LEVELS: Level[] = ['A2', 'B1', 'B2', 'C1']
-export type Pos = 'noun' | 'verb' | 'adj' | 'adv' | 'conj' | 'phrase'
+export type Level = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2'
+export const LEVELS: Level[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
+export type Pos = 'noun' | 'verb' | 'adj' | 'adv' | 'conj' | 'prep' | 'phrase'
 export type Article = 'der' | 'die' | 'das'
 
 export interface Word {
@@ -37,7 +38,7 @@ export interface Word {
   level: Level
 }
 
-const POS: Record<string, Pos> = { N: 'noun', V: 'verb', A: 'adj', D: 'adv', K: 'conj', P: 'phrase' }
+const POS: Record<string, Pos> = { N: 'noun', V: 'verb', A: 'adj', D: 'adv', K: 'conj', R: 'prep', P: 'phrase' }
 
 export function slug(s: string) {
   return s
@@ -69,6 +70,8 @@ export function verbForms(inf: string, p3: string, prat: string, perf: string): 
   // -ern/-eln verbs often drop the e: bedauern → ich bedaure, zweifeln → ich zweifle
   if (/(er|el)n$/.test(infWord)) forms.add(infWord.slice(0, -3) + infWord.slice(-2, -1))
   if (prefix && stem.startsWith(prefix)) forms.add(stem.slice(prefix.length) + sep)
+  // zu-infinitive of separable verbs: abmelden → abzumelden
+  if (prefix && stem.startsWith(prefix)) forms.add(prefix + 'zu' + stem.slice(prefix.length))
   if (p3t[0]) forms.add((p3t[0].length > 3 && p3t[0].endsWith('t') ? p3t[0].slice(0, -1) : p3t[0]) + sep)
   if (prt[0]) forms.add((prt[0].length > 3 && prt[0].endsWith('e') ? prt[0].slice(0, -1) : prt[0]) + sep)
   const part = strip(perf).pop()
@@ -114,6 +117,8 @@ export function parseList(src: string, level: Level): Word[] {
       w.forms = verbForms(w.de, parts[0], parts[1], parts[2])
     } else {
       w.forms = [head.replace(/[.!?]$/, '')]
+      // -el/-er adjectives drop the e when inflected: dunkel → dunkle, teuer → teure
+      if (pos === 'adj' && /[^e]e[lr]$/.test(head)) w.forms.push(head.slice(0, -2) + head.slice(-1))
     }
     if (extra.length) w.forms = extra.concat(pos === 'phrase' ? [] : w.forms)
     out.push({ ...w, id: `${pos}-${slug(w.de)}` })

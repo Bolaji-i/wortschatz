@@ -7,7 +7,6 @@ N der Umsatz, Umsätze | turnover, sales | Der Umsatz ist um zehn Prozent gestie
 N der Gewinn, Gewinne | profit; prize | Die Firma hat dieses Jahr einen hohen Gewinn gemacht. | The company made a big profit this year.
 N der Verlust, Verluste | loss | Der Verlust des Auftrags war ein harter Schlag. | Losing the contract was a hard blow.
 N die Nachfrage, — | demand | Die Nachfrage nach Entwicklern ist groß. | Demand for developers is high.
-N der Markt, Märkte | market | Das Produkt kommt nächstes Jahr auf den Markt. | The product comes onto the market next year.
 N der Wettbewerb, Wettbewerbe | competition | Der Wettbewerb in der Branche ist hart. | Competition in the industry is fierce.
 N die Konkurrenz, — | competition, competitors | Die Konkurrenz schläft nicht. | The competition never sleeps.
 N der Konzern, Konzerne | corporation, group | Siemens ist ein großer Konzern aus München. | Siemens is a big corporation from Munich.

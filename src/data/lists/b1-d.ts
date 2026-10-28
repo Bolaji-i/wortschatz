@@ -27,7 +27,6 @@ A gewohnt | used to; usual | Ich bin es gewohnt, früh aufzustehen. | I’m used
 A gründlich | thorough | Lies den Vertrag gründlich durch. | Read the contract thoroughly.
 A hilflos | helpless | Ohne Deutschkenntnisse fühlte ich mich hilflos. | Without any German I felt helpless.
 A interessiert | interested | Ich bin sehr an dem Job interessiert. | I’m very interested in the job.
-A jung | young | Für den Job ist er noch zu jung. | He is still too young for the job.
 A kompliziert | complicated | Das Formular ist sehr kompliziert. | The form is very complicated.
 A konkret | concrete, specific | Hast du einen konkreten Vorschlag? | Do you have a concrete suggestion?
 A kritisch | critical | Sie sieht die Entwicklung kritisch. | She sees the development critically.
@@ -38,7 +37,6 @@ A nachdenklich | thoughtful, pensive | Nach dem Gespräch war er sehr nachdenkli
 A nützlich | useful | Die App ist wirklich nützlich. | The app is really useful.
 A nutzlos | useless | Ohne Akku ist das Handy nutzlos. | Without the battery the phone is useless.
 A persönlich | personal; in person | Ich möchte mit ihm persönlich sprechen. | I’d like to speak to him in person.
-A praktisch | practical; handy | Der Rucksack ist sehr praktisch. | The backpack is very practical.
 A regelmäßig | regular | Ich mache regelmäßig Sport. | I do sport regularly.
 A riesig | huge | Der Flughafen ist riesig. | The airport is huge.
 A schrecklich | terrible, awful | Ich hatte einen schrecklichen Traum. | I had a terrible dream.
@@ -105,7 +103,6 @@ K inwiefern | to what extent | Ich weiß nicht, inwiefern das stimmt. | I don’
 K wie | as, like; how | Sie ist so groß wie ihr Bruder. | She is as tall as her brother.
 
 # Reisen & Verkehr
-N der Flughafen, Flughäfen | airport | Wie komme ich am schnellsten zum Flughafen? | What’s the fastest way to get to the airport?
 N der Flug, Flüge | flight | Der Flug hat zwei Stunden Verspätung. | The flight is two hours late.
 N die Landung, Landungen | landing | Nach der Landung schalten Sie bitte Ihr Handy ein. | After landing please switch on your phone.
 N der Abflug, Abflüge | departure (flight) | Der Abflug ist um 6:30 Uhr. | Departure is at 6:30.
@@ -113,11 +110,9 @@ N die Ankunft, Ankünfte | arrival | Die Ankunft ist für 14 Uhr geplant. | Arri
 N das Handgepäck, — | hand luggage | Flüssigkeiten im Handgepäck sind begrenzt. | Liquids in hand luggage are limited.
 N der Zoll, Zölle | customs; duty | Am Zoll mussten wir den Koffer öffnen. | We had to open the suitcase at customs.
 N die Grenze, Grenzen | border; limit | Wir sind an der Grenze zu Österreich. | We’re at the border with Austria.
-N die Reservierung, Reservierungen | reservation | Ich habe eine Reservierung auf den Namen Ilori. | I have a reservation under the name Ilori.
 N die Rezeption, Rezeptionen | reception | Den Schlüssel bekommen Sie an der Rezeption. | You get the key at reception.
 N die Übernachtung, Übernachtungen | overnight stay | Eine Übernachtung kostet 90 Euro mit Frühstück. | One night costs 90 euros with breakfast.
 N die Pension, Pensionen | guesthouse; pension | Wir haben in einer kleinen Pension übernachtet. | We stayed in a small guesthouse.
-N der Rucksack, Rucksäcke | backpack | Pack eine Wasserflasche in den Rucksack. | Pack a water bottle in your backpack.
 N der Reiseführer, Reiseführer | guidebook; tour guide | Laut Reiseführer ist das Museum montags zu. | According to the guidebook, the museum is closed on Mondays.
 N die Rundfahrt, Rundfahrten | tour | Wir machen eine Rundfahrt mit dem Boot. | We’re taking a boat tour.
 N die Panne, Pannen | breakdown | Wir hatten auf der Autobahn eine Panne. | We broke down on the motorway.
@@ -136,13 +131,10 @@ V einchecken (checkt ein, checkte ein, hat eingecheckt) | to check in | Wir kön
 # Ausdrücke für jeden Tag
 P Das ist mir egal. | I don’t care. | Wohin wir gehen, ist mir egal. | I don’t care where we go. | +egal
 P Ich bin dran. | It’s my turn. | Warte, jetzt bin ich dran! | Wait, now it’s my turn! | +dran
-P Es tut mir leid. | I’m sorry. | Es tut mir leid, dass ich zu spät bin. | I’m sorry I’m late. | +tut leid, tat leid
 P Keine Sorge! | Don’t worry! | Keine Sorge, ich schaffe das. | Don’t worry, I can do it. | +keine sorge
 P Na und? | So what? | Na und? Das ist doch nicht schlimm. | So what? That’s not bad. | +na und
 P Ich drücke dir die Daumen. | I’ll keep my fingers crossed for you. | Morgen ist die Prüfung? Ich drücke dir die Daumen! | The exam is tomorrow? Fingers crossed for you! | +daumen
 P Das ist nicht mein Ding. | That’s not my thing. | Tanzen ist nicht so mein Ding. | Dancing isn’t really my thing. | +ding
-P Was ist los? | What’s the matter? | Was ist los? Du siehst traurig aus. | What’s wrong? You look sad. | +los
-P Alles klar! | All right, got it! | Alles klar, wir sehen uns um acht. | Got it, see you at eight. | +alles klar
 P in Ordnung | okay, all right | Ist das für dich in Ordnung? | Is that okay for you? | +ordnung
 P im Moment | at the moment | Im Moment habe ich viel zu tun. | I have a lot to do at the moment. | +moment
 P vor Kurzem | recently | Vor Kurzem bin ich umgezogen. | I moved recently. | +kurzem

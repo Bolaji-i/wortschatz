@@ -3,15 +3,10 @@ export default `
 A gefährlich | dangerous | Bei Glatteis ist die Straße sehr gefährlich. | The road is very dangerous when it is icy.
 V leiden (leidet, litt, hat gelitten) | to suffer | Viele Menschen leiden unter Stress bei der Arbeit. | Many people suffer from stress at work. | leiden unter + Dativ
 N die Gefahr, Gefahren | danger | Rauchen ist eine große Gefahr für die Gesundheit. | Smoking is a great danger to your health.
-N der Schmerz, Schmerzen | pain | Ich habe seit gestern Schmerzen im Rücken. | I have had back pain since yesterday.
 N die Erfahrung, Erfahrungen | experience | Sie hat viel Erfahrung mit Kindern. | She has a lot of experience with children.
 N die Möglichkeit, Möglichkeiten | possibility, opportunity | Gibt es eine Möglichkeit, früher anzufangen? | Is there a possibility to start earlier?
 N der Unterschied, Unterschiede | difference | Was ist der Unterschied zwischen diesen beiden Wörtern? | What is the difference between these two words?
 N die Entscheidung, Entscheidungen | decision | Das war eine schwere Entscheidung für mich. | That was a hard decision for me. | eine Entscheidung treffen = to make a decision
-N der Termin, Termine | appointment | Ich habe morgen einen Termin beim Arzt. | I have a doctor’s appointment tomorrow.
-N die Rechnung, Rechnungen | bill, invoice | Können wir bitte die Rechnung haben? | Can we have the bill, please?
-N der Fehler, Fehler | mistake | Jeder macht Fehler, das ist normal. | Everyone makes mistakes, that is normal.
-N die Lösung, Lösungen | solution | Wir müssen schnell eine Lösung finden. | We have to find a solution quickly.
 N das Gefühl, Gefühle | feeling | Ich habe ein gutes Gefühl bei diesem Job. | I have a good feeling about this job.
 N die Sorge, Sorgen | worry | Mach dir keine Sorgen, alles wird gut. | Don’t worry, everything will be fine. | sich Sorgen machen = to worry
 N die Meinung, Meinungen | opinion | Meiner Meinung nach ist das zu teuer. | In my opinion that is too expensive.
@@ -25,13 +20,10 @@ N die Ursache, Ursachen | cause | Die Ursache des Unfalls ist noch unklar. | The
 N das Ergebnis, Ergebnisse | result | Das Ergebnis der Prüfung bekomme ich nächste Woche. | I will get the exam result next week.
 N der Unfall, Unfälle | accident | Auf der Autobahn gab es heute einen Unfall. | There was an accident on the motorway today.
 N die Verspätung, Verspätungen | delay | Der Zug hat zwanzig Minuten Verspätung. | The train is twenty minutes late.
-N der Nachbar, Nachbarn | neighbour | Unser Nachbar hilft uns oft im Garten. | Our neighbour often helps us in the garden.
 N die Angst, Ängste | fear | Viele Kinder haben Angst vor der Dunkelheit. | Many children are afraid of the dark. | Angst haben vor + Dativ
-N die Miete, Mieten | rent | Die Miete in München ist sehr hoch. | The rent in Munich is very high.
 V vergessen (vergisst, vergaß, hat vergessen) | to forget | Ich habe meinen Schlüssel zu Hause vergessen. | I forgot my key at home.
 V sich erinnern (erinnert sich, erinnerte sich, hat sich erinnert) | to remember | Ich erinnere mich gern an meine Kindheit. | I like remembering my childhood. | sich erinnern an + Akkusativ
 V versuchen (versucht, versuchte, hat versucht) | to try | Ich versuche, jeden Tag fünf neue Wörter zu lernen. | I try to learn five new words every day.
-V erklären (erklärt, erklärte, hat erklärt) | to explain | Kannst du mir das bitte noch einmal erklären? | Can you explain that to me again, please?
 V beschreiben (beschreibt, beschrieb, hat beschrieben) | to describe | Beschreib mir bitte den Weg zum Bahnhof. | Please describe the way to the station to me.
 V gewinnen (gewinnt, gewann, hat gewonnen) | to win | Unsere Mannschaft hat das Spiel gewonnen. | Our team won the game.
 V verlieren (verliert, verlor, hat verloren) | to lose | Ich habe mein Handy im Bus verloren. | I lost my phone on the bus.
@@ -60,7 +52,6 @@ A stolz | proud | Meine Eltern sind stolz auf mich. | My parents are proud of me
 A enttäuscht | disappointed | Er war enttäuscht, weil niemand gekommen ist. | He was disappointed because nobody came.
 A überrascht | surprised | Ich war überrascht, wie gut das Essen war. | I was surprised how good the food was.
 A peinlich | embarrassing | Es war mir peinlich, dass ich seinen Namen vergessen hatte. | I was embarrassed that I had forgotten his name.
-A bequem | comfortable | Diese Schuhe sind sehr bequem. | These shoes are very comfortable.
 A günstig | cheap, good value | Im Supermarkt ist das Obst heute günstig. | The fruit at the supermarket is cheap today.
 A vorsichtig | careful | Fahr vorsichtig, es regnet stark! | Drive carefully, it is raining hard!
 A fleißig | hard-working | Sie ist sehr fleißig und lernt jeden Abend. | She is very hard-working and studies every evening.
@@ -72,7 +63,6 @@ A spannend | exciting, gripping | Das Buch ist so spannend, dass ich nicht aufh�
 A anstrengend | tiring, strenuous | Die Wanderung war schön, aber anstrengend. | The hike was nice but tiring.
 A dankbar | grateful | Ich bin dir sehr dankbar für deine Hilfe. | I am very grateful to you for your help.
 A höflich | polite | Es ist höflich, sich vorzustellen. | It is polite to introduce yourself.
-D leider | unfortunately | Leider kann ich heute nicht kommen. | Unfortunately I can’t come today.
 D trotzdem | nevertheless, anyway | Es hat geregnet, aber wir sind trotzdem spazieren gegangen. | It was raining, but we went for a walk anyway.
 D deshalb | that is why, therefore | Ich war krank, deshalb bin ich zu Hause geblieben. | I was ill, that’s why I stayed at home.
 D außerdem | besides, in addition | Die Wohnung ist hell. Außerdem hat sie einen Balkon. | The flat is bright. Besides, it has a balcony.
@@ -81,7 +71,6 @@ D endlich | finally, at last | Endlich ist Wochenende! | At last it’s the week
 D sofort | immediately | Ruf mich bitte sofort an, wenn du ankommst. | Please call me immediately when you arrive.
 D eigentlich | actually | Eigentlich wollte ich heute früh schlafen gehen. | Actually I wanted to go to bed early today.
 D ziemlich | quite, rather | Der Film war ziemlich lang. | The film was quite long.
-D ungefähr | approximately, about | Die Fahrt dauert ungefähr eine Stunde. | The journey takes about an hour.
 K obwohl | although | Obwohl ich müde bin, lerne ich noch eine Stunde. | Although I am tired, I will study for another hour. | verb goes to the end of the clause
 K ob | whether, if | Weißt du, ob der Supermarkt heute geöffnet hat? | Do you know whether the supermarket is open today? | verb goes to the end of the clause
 P Bescheid sagen | to let someone know | Sag mir bitte Bescheid, wenn du fertig bist. | Please let me know when you are finished. | +bescheid

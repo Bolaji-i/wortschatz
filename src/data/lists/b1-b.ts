@@ -14,7 +14,6 @@ N das Medikament, Medikamente | medicine, medication | Nehmen Sie das Medikament
 N die Krankenkasse, Krankenkassen | health insurance company | Die Krankenkasse übernimmt die Kosten. | The health insurance company covers the costs.
 N der Facharzt, Fachärzte | specialist (doctor) | Der Hausarzt hat mich zum Facharzt überwiesen. | My GP referred me to a specialist.
 N der Rettungswagen, Rettungswagen | ambulance | Ruf sofort einen Rettungswagen! | Call an ambulance immediately!
-N der Zahnarzt, Zahnärzte | dentist | Ich habe Angst vor dem Zahnarzt. | I’m afraid of the dentist.
 N die Ernährungsweise, Ernährungsweisen | way of eating | Er hat seine Ernährungsweise komplett umgestellt. | He completely changed the way he eats.
 N die Bewegung, Bewegungen | movement; exercise | Bewegung an der frischen Luft tut gut. | Exercise in the fresh air does you good.
 N der Stress, — | stress | Ich habe im Moment viel Stress bei der Arbeit. | I have a lot of stress at work at the moment.
@@ -73,7 +72,6 @@ V sich verabschieden (verabschiedet sich, verabschiedete sich, hat sich verabsch
 V umarmen (umarmt, umarmte, hat umarmt) | to hug | Sie hat mich zur Begrüßung umarmt. | She hugged me in greeting.
 V küssen (küsst, küsste, hat geküsst) | to kiss | Er küsst sie auf die Wange. | He kisses her on the cheek.
 V ausnutzen (nutzt aus, nutzte aus, hat ausgenutzt) | to take advantage of, to exploit | Er nutzt seine Freunde nur aus. | He just takes advantage of his friends.
-A offen | open | Sie ist neuen Ideen gegenüber sehr offen. | She is very open to new ideas.
 A ehrgeizig | ambitious | Er ist sehr ehrgeizig und will Chef werden. | He is very ambitious and wants to become boss.
 A sympathisch | likeable, nice | Der neue Kollege ist sehr sympathisch. | The new colleague is very likeable.
 A unsympathisch | unpleasant, not likeable | Ich finde ihn ein bisschen unsympathisch. | I find him a bit unpleasant.
@@ -95,7 +93,7 @@ N die Wahl, Wahlen | election; choice | Im Herbst sind wieder Wahlen. | There ar
 N die Partei, Parteien | (political) party | Welche Partei hat die Wahl gewonnen? | Which party won the election?
 N der Bürger, Bürger | citizen | Die Bürger können ihre Meinung online sagen. | Citizens can give their opinion online.
 N die Bevölkerung, — | population | Die Bevölkerung der Stadt wächst schnell. | The population of the city is growing quickly.
-N die Einwohner, — | inhabitants | München hat etwa anderthalb Millionen Einwohner. | Munich has about one and a half million inhabitants. | +einwohner
+N der Einwohner, Einwohner | inhabitant | München hat etwa anderthalb Millionen Einwohner. | Munich has about one and a half million inhabitants. | +einwohner
 N die Demokratie, Demokratien | democracy | In einer Demokratie darf jeder seine Meinung sagen. | In a democracy everyone is allowed to say what they think.
 N das Recht, Rechte | right; law | Jeder hat das Recht auf Bildung. | Everyone has the right to education.
 N die Gleichberechtigung, — | equal rights | Gleichberechtigung ist noch nicht überall erreicht. | Equal rights have not been achieved everywhere yet.
@@ -108,7 +106,6 @@ N die Religion, Religionen | religion | In der Schule lernen die Kinder etwas ü
 N die Armut, — | poverty | Armut ist auch in reichen Ländern ein Problem. | Poverty is a problem in rich countries too.
 N die Arbeitslosigkeit, — | unemployment | Die Arbeitslosigkeit ist leicht gesunken. | Unemployment has fallen slightly.
 N die Kriminalität, — | crime | Die Kriminalität in der Stadt ist gering. | Crime in the city is low.
-N die Polizei, — | police | Die Polizei hat den Dieb gefasst. | The police caught the thief.
 N der Dieb, Diebe | thief | Ein Dieb hat mein Fahrrad gestohlen. | A thief stole my bike.
 N der Krieg, Kriege | war | Viele Menschen fliehen vor dem Krieg. | Many people are fleeing from the war.
 N der Frieden, — | peace | Alle wünschen sich Frieden. | Everyone wishes for peace.
@@ -141,8 +138,6 @@ N die Energie, Energien | energy | Wir sollten mehr Energie sparen. | We should 
 N die Verschmutzung, — | pollution | Die Verschmutzung der Meere ist ein großes Problem. | The pollution of the oceans is a big problem.
 N das Plastik, — | plastic | Ich versuche, weniger Plastik zu kaufen. | I try to buy less plastic.
 N die Mülltrennung, — | waste separation | In Deutschland ist Mülltrennung sehr wichtig. | Waste separation is very important in Germany.
-N die Luft, — | air | In der Stadt ist die Luft oft schlecht. | The air is often bad in the city.
-N die Natur, — | nature | Am Wochenende bin ich gern in der Natur. | At the weekend I like being out in nature.
 N die Ressource, Ressourcen | resource | Wir müssen unsere Ressourcen schützen. | We have to protect our resources.
 N die Katastrophe, Katastrophen | catastrophe, disaster | Die Überschwemmung war eine Katastrophe. | The flood was a disaster.
 N die Überschwemmung, Überschwemmungen | flood | Nach dem Regen gab es Überschwemmungen. | After the rain there were floods.
@@ -168,7 +163,6 @@ N der Artikel, Artikel | article | Ich habe einen interessanten Artikel gelesen.
 N die Schlagzeile, Schlagzeilen | headline | Die Schlagzeile war total übertrieben. | The headline was totally exaggerated.
 N die Werbung, — | advertising | Im Fernsehen gibt es zu viel Werbung. | There’s too much advertising on TV.
 N die Quelle, Quellen | source; spring | Aus welcher Quelle hast du diese Information? | Where did you get this information from?
-N die Information, Informationen | information | Weitere Informationen finden Sie auf unserer Website. | You can find further information on our website.
 N der Beitrag, Beiträge | post, contribution; fee | Sein Beitrag auf Instagram hat viele Likes. | His post on Instagram has lots of likes.
 N das Interview, Interviews | interview | Der Minister hat ein Interview gegeben. | The minister gave an interview.
 N die Zeitschrift, Zeitschriften | magazine | Ich lese eine Zeitschrift über Technik. | I read a magazine about technology.

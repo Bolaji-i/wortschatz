@@ -7,7 +7,6 @@ N der Mitarbeiter, Mitarbeiter | employee, staff member | Die Firma sucht neue M
 N die Abteilung, Abteilungen | department | In welcher Abteilung arbeitest du? | Which department do you work in?
 N der Vorgesetzte, Vorgesetzten | superior, manager | Ich muss das mit meinem Vorgesetzten besprechen. | I have to discuss that with my manager.
 N die Karriere, Karrieren | career | Sie hat ihre Karriere als Praktikantin begonnen. | She began her career as an intern.
-N das Praktikum, Praktika | internship | Im Sommer mache ich ein Praktikum bei BMW. | In summer I’m doing an internship at BMW.
 N der Lebenslauf, Lebensläufe | CV, résumé | Schick uns bitte deinen Lebenslauf. | Please send us your CV.
 N das Anschreiben, Anschreiben | cover letter | Das Anschreiben sollte nicht länger als eine Seite sein. | The cover letter shouldn’t be longer than one page.
 N die Stellenanzeige, Stellenanzeigen | job advert | Ich habe die Stellenanzeige auf LinkedIn gesehen. | I saw the job advert on LinkedIn.
@@ -82,7 +81,6 @@ N der Zugang, Zugänge | access | Ich habe noch keinen Zugang zum System. | I do
 N die Sicherheit, — | security, safety | Sicherheit ist bei der Software sehr wichtig. | Security is very important in software.
 N der Drucker, Drucker | printer | Der Drucker hat kein Papier mehr. | The printer is out of paper.
 N die Unterlagen, — | documents, papers | Bringen Sie bitte alle Unterlagen mit. | Please bring all the documents with you. | +unterlage
-N das Formular, Formulare | form | Das Formular kann man online ausfüllen. | You can fill in the form online.
 N die Unterschrift, Unterschriften | signature | Hier fehlt noch Ihre Unterschrift. | Your signature is still missing here.
 N der Stempel, Stempel | stamp | Ohne Stempel ist das Dokument nicht gültig. | Without a stamp the document isn’t valid.
 V aktualisieren (aktualisiert, aktualisierte, hat aktualisiert) | to update | Bitte aktualisiere die App. | Please update the app.
@@ -102,8 +100,6 @@ A ungültig | invalid | Das Passwort ist ungültig. | The password is invalid.
 A online | online | Den Termin kann man online buchen. | You can book the appointment online.
 
 # Geld & Finanzen
-N die Bank, Banken | bank | Ich muss noch zur Bank gehen. | I still have to go to the bank.
-N die Kreditkarte, Kreditkarten | credit card | Kann ich mit Kreditkarte zahlen? | Can I pay by credit card?
 N die Gebühr, Gebühren | fee | Für die Überweisung fallen keine Gebühren an. | There are no fees for the transfer.
 N die Kosten, — | costs | Die Kosten für die Reparatur übernimmt die Versicherung. | The insurance will cover the costs of the repair. | +kosten
 N die Ausgabe, Ausgaben | expense; edition | Ich schreibe alle meine Ausgaben auf. | I write down all my expenses.
