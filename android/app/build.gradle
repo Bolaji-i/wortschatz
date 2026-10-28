@@ -7,8 +7,9 @@ android {
         applicationId "com.voltron.wortschatz"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode Integer.parseInt(System.getenv("GITHUB_RUN_NUMBER") ?: "1")
-        versionName "1.2"
+        // Always increasing (minutes since 1 Jan 2026), so every build can be uploaded to Google Play
+        versionCode = ((System.currentTimeMillis().intdiv(1000L) - 1767225600L).intdiv(60L)) as int
+        versionName "1.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -16,13 +17,23 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
-    // A fixed signing key so new builds install as updates over the old app (your progress is kept).
     signingConfigs {
+        // Test key for the APK you install yourself: a fixed key, so new builds install as updates (progress is kept).
         shared {
             storeFile file('wortschatz-debug.jks')
             storePassword 'android'
             keyAlias 'wortschatz'
             keyPassword 'android'
+        }
+        // Google Play upload key – only used when the secrets are provided (see store/PUBLISHING.md).
+        // Never commit this key: it comes from GitHub Secrets in CI.
+        if (System.getenv("UPLOAD_KEYSTORE_FILE")) {
+            upload {
+                storeFile file(System.getenv("UPLOAD_KEYSTORE_FILE"))
+                storePassword System.getenv("UPLOAD_KEYSTORE_PASSWORD")
+                keyAlias System.getenv("UPLOAD_KEY_ALIAS")
+                keyPassword System.getenv("UPLOAD_KEY_PASSWORD")
+            }
         }
     }
     buildTypes {
@@ -30,7 +41,7 @@ android {
             signingConfig signingConfigs.shared
         }
         release {
-            signingConfig signingConfigs.shared
+            signingConfig System.getenv("UPLOAD_KEYSTORE_FILE") ? signingConfigs.upload : signingConfigs.shared
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
