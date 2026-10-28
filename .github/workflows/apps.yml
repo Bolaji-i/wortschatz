@@ -208,11 +208,18 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           ls -lh
-          TAG="build-${{ github.run_number }}"
+          # Tag by date + commit rather than run_number: the run counter restarts whenever
+          # the workflow is renamed, which collided with tags left by the old workflow.
+          TAG="build-$(date -u +%Y%m%d)-${GITHUB_SHA::7}"
           FILES=()
           for f in Wortschatz.apk Wortschatz.ipa; do [ -f "$f" ] && FILES+=("$f"); done
-          gh release create "$TAG" "${FILES[@]}" \
-            --repo "${{ github.repository }}" \
-            --title "Super Wortschatz build ${{ github.run_number }}" \
-            --notes "Test builds. Android: open this page on your phone and tap Wortschatz.apk. iPhone: install Wortschatz.ipa with Sideloadly or AltStore (see README). Store builds go to Google Play / App Store Connect." \
-            --latest
+          if gh release view "$TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            # Re-run of the same commit: replace the files instead of failing.
+            gh release upload "$TAG" "${FILES[@]}" --repo "${{ github.repository }}" --clobber
+          else
+            gh release create "$TAG" "${FILES[@]}" \
+              --repo "${{ github.repository }}" \
+              --title "Super Wortschatz $TAG" \
+              --notes "Test builds. Android: open this page on your phone and tap Wortschatz.apk. iPhone: install Wortschatz.ipa with Sideloadly or AltStore." \
+              --latest
+          fi
