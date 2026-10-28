@@ -1,8 +1,8 @@
 <template>
   <div class="plan">
     <section>
-      <h3>Welche Wörter möchtest du lernen?</h3>
-      <p class="hint">Wähle ein Niveau – oder kombiniere mehrere. Jedes gewählte Niveau bekommt gleich viele Wörter pro Tag.</p>
+      <h3>{{ t('whichWords') }}</h3>
+      <p class="hint">{{ t('levelsHint') }}</p>
       <div class="levels">
         <button
           v-for="l in LEVELS"
@@ -15,25 +15,25 @@
         >
           <span class="tick"><ion-icon :icon="isOn(l) ? checkmarkCircle : ellipseOutline" /></span>
           <strong class="code serif">{{ l }}</strong>
-          <span class="name">{{ INFO[l].name }}</span>
-          <span class="desc">{{ INFO[l].desc }}</span>
+          <span class="name">{{ levelName(l) }}</span>
+          <span class="desc">{{ levelDesc(l) }}</span>
           <span class="bar"><i :style="{ width: pct(l) + '%' }" /></span>
-          <span class="count">{{ levelStats[l].learned }} / {{ levelStats[l].total }} gelernt</span>
+          <span class="count">{{ t('learnedCount', { a: levelStats[l].learned, b: levelStats[l].total }) }}</span>
         </button>
       </div>
     </section>
 
     <section>
-      <h3>Neue Wörter pro Tag</h3>
+      <h3>{{ t('newPerDay') }}</h3>
       <div class="stepper">
-        <button type="button" class="step" aria-label="Weniger" :disabled="goal <= MIN_GOAL" @click="setGoal(goal - 1)">
+        <button type="button" class="step" :aria-label="t('fewer')" :disabled="goal <= MIN_GOAL" @click="setGoal(goal - 1)">
           <ion-icon :icon="remove" />
         </button>
         <div class="value">
           <strong class="serif">{{ goal }}</strong>
-          <span>{{ goal === 1 ? 'Wort' : 'Wörter' }} pro Tag</span>
+          <span>{{ t('perDayLong', { words: words(goal) }) }}</span>
         </div>
-        <button type="button" class="step" aria-label="Mehr" :disabled="goal >= MAX_GOAL" @click="setGoal(goal + 1)">
+        <button type="button" class="step" :aria-label="t('more')" :disabled="goal >= MAX_GOAL" @click="setGoal(goal + 1)">
           <ion-icon :icon="add" />
         </button>
       </div>
@@ -42,11 +42,11 @@
       </div>
       <p class="mix">
         <ion-icon :icon="layersOutline" />
-        <span>Jeden Tag: <template v-for="(n, l, i) in split" :key="l"><template v-if="i">, </template><b>{{ n }}× {{ l }}</b></template></span>
+        <span>{{ t('eachDay') }} <template v-for="(n, l, i) in split" :key="l"><template v-if="i">, </template><b>{{ n }}× {{ l }}</b></template></span>
       </p>
       <p class="hint">
         {{ estimate }}
-        <template v-if="goal > 15"> Tipp: Viele neue Wörter bedeuten später auch viele Wiederholungen.</template>
+        <template v-if="goal > 15"> {{ t('manyWordsTip') }}</template>
       </p>
     </section>
   </div>
@@ -58,16 +58,11 @@ import { IonIcon, toastController } from '@ionic/vue'
 import { add, checkmarkCircle, ellipseOutline, layersOutline, remove } from 'ionicons/icons'
 import { LEVELS, type Level } from '@/data/words'
 import { MAX_GOAL, MIN_GOAL, dailySplit, levelStats, selectedLevels, state } from '@/lib/store'
+import { lang, levelDesc, levelName, t, words } from '@/lib/i18n'
 
 const emit = defineEmits<{ change: [] }>()
 
 const PRESETS = [3, 5, 10, 15, 20]
-const INFO: Record<Level, { name: string; desc: string }> = {
-  A2: { name: 'Grundlagen', desc: 'Alltagswörter, die man oft verpasst' },
-  B1: { name: 'Mittelstufe', desc: 'Beruf, Gefühle, Gesellschaft' },
-  B2: { name: 'Fortgeschritten', desc: 'Argumentieren, Wirtschaft, Redewendungen' },
-  C1: { name: 'Gehoben', desc: 'Präzise & elegant ausdrücken' }
-}
 
 const goal = computed(() => state.settings.dailyGoal)
 const split = computed(() => dailySplit(goal.value))
@@ -76,18 +71,24 @@ const pct = (l: Level) => (levelStats.value[l].learned / levelStats.value[l].tot
 
 const estimate = computed(() => {
   const left = selectedLevels().reduce((n, l) => n + levelStats.value[l].total - levelStats.value[l].learned, 0)
-  if (!left) return 'Du hast alle Wörter dieser Niveaus gelernt – wähle ein weiteres Niveau!'
+  if (!left) return t('estimateDone')
   const days = Math.ceil(left / goal.value)
-  const span = days < 60 ? `${days} Tagen` : days < 730 ? `${Math.round(days / 30)} Monaten` : `${(days / 365).toFixed(1).replace('.', ',')} Jahren`
-  return `${left} neue Wörter in deiner Auswahl – bei diesem Tempo in etwa ${span} geschafft.`
+  const years = (days / 365).toFixed(1)
+  const span =
+    days < 60
+      ? t('spanDays', { n: days })
+      : days < 730
+        ? t('spanMonths', { n: Math.round(days / 30) })
+        : t('spanYears', { n: lang.value === 'de' ? years.replace('.', ',') : years })
+  return t('estimate', { left: left.toLocaleString(lang.value === 'de' ? 'de-DE' : 'en-GB'), span })
 })
 
 async function toggle(l: Level) {
   const set = new Set(state.settings.levels)
   if (set.has(l)) {
     if (set.size === 1) {
-      const t = await toastController.create({ message: 'Wähle mindestens ein Niveau.', duration: 1600, position: 'top', color: 'warning' })
-      await t.present()
+      const toast = await toastController.create({ message: t('atLeastOneLevel'), duration: 1600, position: 'top', color: 'warning' })
+      await toast.present()
       return
     }
     set.delete(l)

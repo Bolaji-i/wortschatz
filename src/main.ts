@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { IonicVue } from '@ionic/vue'
 import { App as CapApp } from '@capacitor/app'
+import { Capacitor } from '@capacitor/core'
 import App from './App.vue'
 import router from './router'
 import { loadState, refreshToday } from './lib/store'
@@ -22,6 +23,11 @@ loadState().then(async () => {
   await router.isReady()
   app.mount('#app')
 })
+
+// Web (home-screen) version only: cache the app so it also works offline
+if (!Capacitor.isNativePlatform() && import.meta.env.PROD && 'serviceWorker' in navigator) {
+  navigator.serviceWorker.register(import.meta.env.BASE_URL + 'sw.js').catch(() => {})
+}
 
 // A new day may have started while the app was in the background
 CapApp.addListener('resume', () => refreshToday()).catch(() => {})

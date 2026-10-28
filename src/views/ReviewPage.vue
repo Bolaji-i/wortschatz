@@ -5,22 +5,22 @@
         <!-- Start screen -->
         <template v-if="phase === 'start'">
           <header class="hero">
-            <p class="eyebrow">Wiederholen</p>
-            <h1 class="big-title">Damit die Wörter bleiben</h1>
+            <p class="eyebrow">{{ t('reviewEyebrow') }}</p>
+            <h1 class="big-title">{{ t('reviewTitle') }}</h1>
           </header>
           <div class="panel start">
             <template v-if="dueCount > 0">
               <p class="count serif">{{ dueCount }}</p>
-              <p>{{ dueCount === 1 ? 'Wort ist' : 'Wörter sind' }} heute dran.</p>
-              <p class="muted small">Richtige Antworten kommen später wieder (1 → 2 → 4 → 7 → 15 → 30 Tage). Falsche schon morgen.</p>
-              <ion-button expand="block" size="large" @click="start">Los geht’s</ion-button>
+              <p>{{ dueCount === 1 ? t('dueOne') : t('dueMany') }}</p>
+              <p class="muted small">{{ t('srsHint') }}</p>
+              <ion-button expand="block" size="large" @click="start">{{ t('letsGo') }}</ion-button>
             </template>
             <template v-else>
               <p class="count serif">✓</p>
-              <p>Für heute ist alles wiederholt.</p>
-              <p v-if="nextDueDate" class="muted small">Nächste Wiederholung: {{ prettyDate(nextDueDate) }}</p>
-              <p v-else class="muted small">Lerne zuerst ein paar neue Wörter – sie kommen morgen zur Wiederholung.</p>
-              <ion-button v-if="practiceable.length >= 4" expand="block" fill="outline" @click="start(true)">Trotzdem üben</ion-button>
+              <p>{{ t('allReviewed') }}</p>
+              <p v-if="nextDueDate" class="muted small">{{ t('nextReview', { d: prettyDate(nextDueDate) }) }}</p>
+              <p v-else class="muted small">{{ t('learnFirst') }}</p>
+              <ion-button v-if="practiceable.length >= 4" expand="block" fill="outline" @click="start(true)">{{ t('practiseAnyway') }}</ion-button>
             </template>
           </div>
         </template>
@@ -28,13 +28,13 @@
         <!-- Question -->
         <template v-else-if="phase === 'quiz' && q">
           <div class="quiz-top">
-            <ion-button fill="clear" size="small" @click="phase = 'summary'">Beenden</ion-button>
+            <ion-button fill="clear" size="small" @click="phase = 'summary'">{{ t('quit') }}</ion-button>
             <span class="muted">{{ index + 1 }} / {{ queue.length }}</span>
           </div>
           <div class="bar"><div class="fill" :style="{ width: ((index) / queue.length) * 100 + '%' }" /></div>
 
           <div class="question panel">
-            <p class="eyebrow">{{ q.label }}</p>
+            <p class="eyebrow">{{ t(q.label) }}</p>
             <h2 lang="de" class="serif prompt" :class="q.type === 'cloze' ? 'cloze' : ''" :style="q.type === 'cloze' ? {} : { fontSize: fitFont(q.prompt, 90, 32) }">{{ q.prompt }}</h2>
             <p v-if="q.sub" class="muted">{{ q.sub }}</p>
             <button v-if="q.speakText" class="speak" @click="speak(q.speakText)"><ion-icon :icon="volumeHighOutline" /></button>
@@ -45,13 +45,13 @@
               ref="inputRef"
               v-model="typed"
               class="answer-input"
-              placeholder="Fehlendes Wort"
+              :placeholder="t('missingWord')"
               autocapitalize="off"
               :disabled="answered"
               @keyup.enter="submitTyped"
             />
-            <ion-button v-if="!answered" expand="block" :disabled="!typed.trim()" @click="submitTyped">Prüfen</ion-button>
-            <ion-button v-if="!answered" expand="block" fill="clear" @click="answer(false)">Ich weiß es nicht</ion-button>
+            <ion-button v-if="!answered" expand="block" :disabled="!typed.trim()" @click="submitTyped">{{ t('check') }}</ion-button>
+            <ion-button v-if="!answered" expand="block" fill="clear" @click="answer(false)">{{ t('dontKnow') }}</ion-button>
           </div>
 
           <div v-else class="options" :class="{ articles: q.type === 'article' }">
@@ -68,27 +68,27 @@
           </div>
 
           <div v-if="answered" class="feedback" :class="wasCorrect ? 'right' : 'wrong'">
-            <p class="verdict">{{ wasCorrect ? 'Richtig!' : 'Leider falsch' }}</p>
+            <p class="verdict">{{ wasCorrect ? t('right') : t('wrong') }}</p>
             <p class="serif solution">{{ headword(q.word) }} — {{ q.word.en }}</p>
             <p class="muted">{{ q.word.example.de }}</p>
-            <ion-button expand="block" @click="next">{{ index + 1 < queue.length ? 'Weiter' : 'Fertig' }}</ion-button>
+            <ion-button expand="block" @click="next">{{ index + 1 < queue.length ? t('next') : t('done') }}</ion-button>
           </div>
         </template>
 
         <!-- Summary -->
         <template v-else-if="phase === 'summary'">
           <header class="hero">
-            <p class="eyebrow">Ergebnis</p>
+            <p class="eyebrow">{{ t('result') }}</p>
             <h1 class="big-title">{{ summaryTitle }}</h1>
           </header>
           <div class="panel start">
             <p class="count serif">{{ correctCount }}/{{ answeredCount }}</p>
-            <p>richtig beantwortet</p>
+            <p>{{ t('answeredCorrectly') }}</p>
             <div v-if="missed.length" class="missed">
-              <p class="eyebrow">Diese Wörter üben wir morgen nochmal</p>
+              <p class="eyebrow">{{ t('missedHint') }}</p>
               <p v-for="w in missed" :key="w.id"><strong class="serif">{{ headword(w) }}</strong> <span class="muted">— {{ w.en }}</span></p>
             </div>
-            <ion-button expand="block" @click="phase = 'start'">Zurück</ion-button>
+            <ion-button expand="block" @click="phase = 'start'">{{ t('back') }}</ion-button>
           </div>
         </template>
       </div>
@@ -105,12 +105,13 @@ import { prettyDate } from '@/lib/date'
 import { speak } from '@/lib/device'
 import { fitFont, makeCloze, normalizeAnswer } from '@/lib/check'
 import { dueCount, dueWords, nextDueDate, recordReview, state } from '@/lib/store'
+import { t } from '@/lib/i18n'
 
 type QType = 'meaning' | 'reverse' | 'article' | 'cloze'
 interface Question {
   word: Word
   type: QType
-  label: string
+  label: 'qArticle' | 'qReverse' | 'qCloze' | 'qMeaning'
   prompt: string
   sub?: string
   speakText?: string
@@ -136,7 +137,7 @@ const answeredCount = computed(() => results.value.length)
 const missed = computed(() => results.value.filter(r => !r.correct).map(r => WORD_BY_ID[r.id]))
 const summaryTitle = computed(() => {
   const ratio = answeredCount.value ? correctCount.value / answeredCount.value : 0
-  return ratio >= 0.9 ? 'Ausgezeichnet!' : ratio >= 0.6 ? 'Gut gemacht!' : 'Übung macht den Meister'
+  return ratio >= 0.9 ? t('sumGreat') : ratio >= 0.6 ? t('sumGood') : t('sumKeepGoing')
 })
 
 function shuffle<T>(arr: T[]): T[] {
@@ -168,17 +169,17 @@ function buildQuestion(word: Word): Question {
   const type = types[Math.floor(Math.random() * types.length)]
 
   if (type === 'article') {
-    return { word, type, label: 'Welcher Artikel?', prompt: word.de, sub: word.en, options: ['der', 'die', 'das'], answer: word.article!, speakText: undefined }
+    return { word, type, label: 'qArticle', prompt: word.de, sub: word.en, options: ['der', 'die', 'das'], answer: word.article!, speakText: undefined }
   }
   if (type === 'reverse') {
     const ans = headword(word)
-    return { word, type, label: 'Wie sagt man auf Deutsch?', prompt: word.en, options: shuffle([ans, ...distractors(word, headword)]), answer: ans }
+    return { word, type, label: 'qReverse', prompt: word.en, options: shuffle([ans, ...distractors(word, headword)]), answer: ans }
   }
   if (type === 'cloze') {
     const c = makeCloze(word)!
-    return { word, type, label: 'Ergänze den Satz', prompt: c.text, sub: `${word.en}${word.article ? ' · ' + word.article + ' …' : ''}`, options: [], answer: c.answer }
+    return { word, type, label: 'qCloze', prompt: c.text, sub: `${word.en}${word.article ? ' · ' + word.article + ' …' : ''}`, options: [], answer: c.answer }
   }
-  return { word, type, label: 'Was bedeutet …?', prompt: headword(word), speakText: headword(word), options: shuffle([word.en, ...distractors(word, w => w.en)]), answer: word.en }
+  return { word, type, label: 'qMeaning', prompt: headword(word), speakText: headword(word), options: shuffle([word.en, ...distractors(word, w => w.en)]), answer: word.en }
 }
 
 function start(extra = false) {

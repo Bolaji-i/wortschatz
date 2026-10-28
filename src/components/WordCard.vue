@@ -6,16 +6,16 @@
           <span v-if="word.article" class="chip" :class="`bg-${word.article}`">{{ word.article }}</span>
           <span v-else class="chip">{{ posLabel }}</span>
           <span class="chip level">{{ word.level }}</span>
-          <span v-if="practised" class="chip ok"><ion-icon :icon="checkmark" /> geübt</span>
+          <span v-if="practised" class="chip ok"><ion-icon :icon="checkmark" /> {{ t('practisedChip') }}</span>
         </div>
         <h2 class="word serif" lang="de" :style="{ fontSize: fitFont(headword(word), 160, 30) }">
           <span v-if="word.article" :class="`art-${word.article}`">{{ word.article }}</span> {{ word.de }}
         </h2>
         <p class="en">{{ word.en }}</p>
-        <p v-if="word.plural" class="extra">Plural: {{ word.plural }}</p>
+        <p v-if="word.plural" class="extra">{{ t('plural') }}: {{ word.plural }}</p>
         <p v-if="word.conj" class="extra">{{ word.conj }}</p>
       </div>
-      <button class="speak" aria-label="Aussprache anhören" @click.stop="speak(headword(word))">
+      <button class="speak" :aria-label="t('listenWord')" @click.stop="speak(headword(word))">
         <ion-icon :icon="volumeHighOutline" />
       </button>
     </div>
@@ -24,19 +24,19 @@
       <div class="example">
         <p class="de">
           {{ word.example.de }}
-          <button class="mini-speak" aria-label="Satz anhören" @click="speak(word.example.de)">
+          <button class="mini-speak" :aria-label="t('listenSentence')" @click="speak(word.example.de)">
             <ion-icon :icon="volumeMediumOutline" />
           </button>
         </p>
         <p class="muted">{{ word.example.en }}</p>
       </div>
-      <p v-if="word.usage" class="usage"><strong>Tipp:</strong> {{ word.usage }}</p>
-      <p v-if="lastSentence" class="mine"><span class="eyebrow">Dein Satz</span><br />{{ lastSentence }}</p>
+      <p v-if="word.usage" class="usage"><strong>{{ t('tip') }}</strong> {{ tipText(word.usage) }}</p>
+      <p v-if="lastSentence" class="mine"><span class="eyebrow">{{ t('yourSentence') }}</span><br />{{ lastSentence }}</p>
     </div>
 
     <ion-button expand="block" :fill="practised ? 'outline' : 'solid'" class="practise" @click="$emit('practise', word)">
       <ion-icon slot="start" :icon="createOutline" />
-      {{ practised ? 'Noch einen Satz schreiben' : 'Eigenen Satz schreiben' }}
+      {{ practised ? t('writeAnother') : t('writeOwn') }}
     </ion-button>
   </article>
 </template>
@@ -49,6 +49,7 @@ import { headword, type Word } from '@/data/words'
 import { speak } from '@/lib/device'
 import { fitFont } from '@/lib/check'
 import { state } from '@/lib/store'
+import { t, tipText } from '@/lib/i18n'
 
 const props = defineProps<{ word: Word; practised: boolean; startOpen?: boolean }>()
 defineEmits<{ practise: [word: Word] }>()
@@ -56,8 +57,7 @@ defineEmits<{ practise: [word: Word] }>()
 const open = ref(props.startOpen || !props.practised)
 const lastSentence = computed(() => state.sentences[props.word.id]?.[0]?.text)
 
-const POS: Record<string, string> = { verb: 'Verb', adj: 'Adjektiv', adv: 'Adverb', conj: 'Konjunktion', phrase: 'Redewendung', noun: 'Nomen' }
-const posLabel = computed(() => POS[props.word.pos])
+const posLabel = computed(() => t(`pos_${props.word.pos}`))
 </script>
 
 <style scoped>

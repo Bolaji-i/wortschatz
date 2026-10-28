@@ -5,12 +5,12 @@
         <header class="hero">
           <div>
             <p class="eyebrow">{{ prettyDate(ui.today) }}</p>
-            <h1 class="big-title">Deine Wörter<br />für heute</h1>
+            <h1 class="big-title">{{ t('todayTitle1') }}<br />{{ t('todayTitle2') }}</h1>
           </div>
           <div class="streak" :class="{ lit: currentStreak > 0 }">
             <ion-icon :icon="flame" />
             <strong>{{ currentStreak }}</strong>
-            <span>{{ currentStreak === 1 ? 'Tag' : 'Tage' }}</span>
+            <span>{{ currentStreak === 1 ? t('dayOne') : t('dayMany') }}</span>
           </div>
         </header>
 
@@ -18,25 +18,25 @@
           <span class="lv">
             <span v-for="l in selectedLevels()" :key="l" class="chip lvl">{{ l }}</span>
           </span>
-          <span class="goal">{{ state.settings.dailyGoal }} {{ state.settings.dailyGoal === 1 ? 'Wort' : 'Wörter' }} / Tag</span>
-          <span class="edit"><ion-icon :icon="optionsOutline" /> Ändern</span>
+          <span class="goal">{{ t('perDayShort', { n: state.settings.dailyGoal, words: words(state.settings.dailyGoal) }) }}</span>
+          <span class="edit"><ion-icon :icon="optionsOutline" /> {{ t('change') }}</span>
         </button>
 
         <div class="progress panel">
           <div class="bar"><div class="fill" :style="{ width: pct + '%' }" /></div>
           <p>
-            <strong>{{ today.practised.length }} von {{ todayWords.length }}</strong> geübt
-            <span class="muted"> · schreib zu jedem Wort einen eigenen Satz</span>
+            <strong>{{ t('practisedOf', { a: today.practised.length, b: todayWords.length }) }}</strong> {{ t('practisedLabel') }}
+            <span class="muted"> · {{ t('practiseHint') }}</span>
           </p>
         </div>
 
         <div v-if="today.completed" class="done-banner panel">
-          <p class="serif">Geschafft! 🎉</p>
+          <p class="serif">{{ t('doneTitle') }}</p>
           <p class="muted">
-            Du hast heute alle Wörter geübt. Morgen kommen sie zur Wiederholung zurück.
-            <template v-if="dueCount > 0"> Du hast noch {{ dueCount }} Wörter zum Wiederholen.</template>
+            {{ t('doneText') }}
+            <template v-if="dueCount > 0"> {{ t('dueLeft', { n: dueCount }) }}</template>
           </p>
-          <ion-button v-if="dueCount > 0" router-link="/tabs/review" color="secondary">Jetzt wiederholen</ion-button>
+          <ion-button v-if="dueCount > 0" router-link="/tabs/review" color="secondary">{{ t('reviewNow') }}</ion-button>
         </div>
 
         <WordCard
@@ -48,12 +48,12 @@
         />
 
         <p v-if="todayWords.length === 0" class="muted empty">
-          Du hast alle Wörter deiner gewählten Niveaus gelernt – fantastisch! Wähle oben unter „Ändern“ ein weiteres Niveau.
+          {{ t('allLearnedToday') }}
         </p>
 
         <ion-button v-if="remaining > 0" expand="block" fill="clear" class="more" @click="more">
           <ion-icon slot="start" :icon="addCircleOutline" />
-          {{ state.settings.dailyGoal }} weitere Wörter lernen
+          {{ t('moreWords', { n: state.settings.dailyGoal }) }}
         </ion-button>
       </div>
     </ion-content>
@@ -69,6 +69,7 @@ import PracticeModal from '@/components/PracticeModal.vue'
 import PlanModal from '@/components/PlanModal.vue'
 import type { Word } from '@/data/words'
 import { prettyDate } from '@/lib/date'
+import { t, words } from '@/lib/i18n'
 import { addWords, currentStreak, dueCount, remainingNewWords, selectedLevels, state, stats, today, todayWords, ui } from '@/lib/store'
 
 const pct = computed(() => (todayWords.value.length ? (today.value.practised.length / todayWords.value.length) * 100 : 0))

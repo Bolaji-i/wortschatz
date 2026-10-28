@@ -3,33 +3,33 @@
     <ion-content :fullscreen="true">
       <div class="page">
         <header class="hero">
-          <p class="eyebrow">Fortschritt</p>
-          <h1 class="big-title">Dein Wortschatz wächst</h1>
+          <p class="eyebrow">{{ t('progressEyebrow') }}</p>
+          <h1 class="big-title">{{ t('progressTitle') }}</h1>
         </header>
 
         <div class="tiles">
-          <div class="tile panel"><strong class="serif">{{ stats.learned }}</strong><span>Wörter gelernt</span></div>
-          <div class="tile panel"><strong class="serif">{{ stats.mastered }}</strong><span>sicher gemerkt</span></div>
-          <div class="tile panel"><strong class="serif">{{ currentStreak }}</strong><span>Tage in Folge · Rekord {{ state.streak.longest }}</span></div>
-          <div class="tile panel"><strong class="serif">{{ stats.sentences }}</strong><span>eigene Sätze</span></div>
+          <div class="tile panel"><strong class="serif">{{ stats.learned }}</strong><span>{{ t('tileLearned') }}</span></div>
+          <div class="tile panel"><strong class="serif">{{ stats.mastered }}</strong><span>{{ t('tileMastered') }}</span></div>
+          <div class="tile panel"><strong class="serif">{{ currentStreak }}</strong><span>{{ t('tileStreak', { n: state.streak.longest }) }}</span></div>
+          <div class="tile panel"><strong class="serif">{{ stats.sentences }}</strong><span>{{ t('tileSentences') }}</span></div>
         </div>
 
         <div class="panel week">
-          <p class="eyebrow">Letzte 7 Tage</p>
+          <p class="eyebrow">{{ t('last7') }}</p>
           <div class="bars">
             <div v-for="d in week" :key="d.key" class="col">
-              <div class="stack" :title="`${d.practised} geübt, ${d.reviewed} wiederholt`">
+              <div class="stack" :title="t('dayBar', { p: d.practised, r: d.reviewed })">
                 <div class="seg rev" :style="{ height: (d.reviewed / maxDay) * 100 + '%' }" />
                 <div class="seg prac" :style="{ height: (d.practised / maxDay) * 100 + '%' }" />
               </div>
               <span :class="{ today: d.key === ui.today }">{{ d.label }}</span>
             </div>
           </div>
-          <p class="legend"><i class="dot prac" /> neue Wörter geübt <i class="dot rev" /> wiederholt</p>
+          <p class="legend"><i class="dot prac" /> {{ t('legendPractised') }} <i class="dot rev" /> {{ t('legendReviewed') }}</p>
         </div>
 
         <div class="panel overall">
-          <p class="eyebrow">Nach Niveau · {{ stats.learned }} von {{ stats.total }} Wörtern</p>
+          <p class="eyebrow">{{ t('byLevel', { a: stats.learned, b: stats.total.toLocaleString(lang === 'de' ? 'de-DE' : 'en-GB') }) }}</p>
           <div v-for="l in LEVELS" :key="l" class="lvl-row" :class="{ off: !state.settings.levels.includes(l) }">
             <span class="lvl serif">{{ l }}</span>
             <div class="bar"><div class="fill" :style="{ width: (levelStats[l].learned / levelStats[l].total) * 100 + '%' }" /></div>
@@ -37,7 +37,7 @@
           </div>
         </div>
 
-        <ion-searchbar v-model="query" placeholder="Gelernte Wörter suchen" class="search" />
+        <ion-searchbar v-model="query" :placeholder="t('searchLearned')" class="search" />
 
         <div class="list">
           <button v-for="w in filtered" :key="w.id" class="row" @click="selected = w">
@@ -45,11 +45,11 @@
               <span class="serif name"><span v-if="w.article" :class="`art-${w.article}`">{{ w.article }}&nbsp;</span>{{ w.de }}</span>
               <span class="muted en">{{ w.en }}</span>
             </div>
-            <span class="boxes" :aria-label="`Stufe ${state.cards[w.id]?.box ?? 0}`">
+            <span class="boxes" :aria-label="t('stage', { n: state.cards[w.id]?.box ?? 0 })">
               <i v-for="i in 6" :key="i" :class="{ on: (state.cards[w.id]?.box ?? 0) >= i }" />
             </span>
           </button>
-          <p v-if="!filtered.length" class="muted empty">Noch keine Wörter – fang auf der Seite „Heute“ an.</p>
+          <p v-if="!filtered.length" class="muted empty">{{ t('noWordsYet') }}</p>
         </div>
       </div>
 
@@ -57,12 +57,12 @@
         <ion-content v-if="selected">
           <div class="page detail">
             <WordCard :word="selected" :practised="false" :start-open="true" @practise="practise" />
-            <p class="eyebrow">Deine Sätze</p>
+            <p class="eyebrow">{{ t('yourSentences') }}</p>
             <p v-for="(s, i) in state.sentences[selected.id] ?? []" :key="i" class="sentence serif">
               „{{ s.text }}“ <span class="muted date">{{ s.date }}</span>
             </p>
-            <p v-if="!(state.sentences[selected.id] ?? []).length" class="muted">Noch keine Sätze.</p>
-            <p class="muted small">Nächste Wiederholung: {{ prettyDate(state.cards[selected.id]?.due ?? ui.today) }}</p>
+            <p v-if="!(state.sentences[selected.id] ?? []).length" class="muted">{{ t('noSentences') }}</p>
+            <p class="muted small">{{ t('nextReview', { d: prettyDate(state.cards[selected.id]?.due ?? ui.today) }) }}</p>
           </div>
         </ion-content>
       </ion-modal>
@@ -79,6 +79,7 @@ import { WORD_BY_ID, type Word } from '@/data/words'
 import { lastNDays, prettyDate, weekdayShort } from '@/lib/date'
 import { currentStreak, levelStats, state, stats, ui } from '@/lib/store'
 import { LEVELS } from '@/data/words'
+import { lang, t } from '@/lib/i18n'
 
 const query = ref('')
 const selected = ref<Word | null>(null)
@@ -96,12 +97,13 @@ const filtered = computed(() => {
   return learned.value.filter(w => w.de.toLowerCase().includes(q) || w.en.toLowerCase().includes(q))
 })
 
-const week = computed(() =>
-  lastNDays(7, ui.today).map(key => {
+const week = computed(() => {
+  void lang.value // re-label the weekdays when the interface language changes
+  return lastNDays(7, ui.today).map(key => {
     const d = state.days[key]
     return { key, label: weekdayShort(key), practised: d?.practised.length ?? 0, reviewed: d?.reviewed ?? 0 }
   })
-)
+})
 const maxDay = computed(() => Math.max(5, ...week.value.map(d => d.practised + d.reviewed)))
 
 async function practise(word: Word) {

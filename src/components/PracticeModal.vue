@@ -2,9 +2,9 @@
   <ion-header>
     <ion-toolbar>
       <ion-buttons slot="start">
-        <ion-button @click="close()">Schließen</ion-button>
+        <ion-button @click="close()">{{ t('close') }}</ion-button>
       </ion-buttons>
-      <ion-title>Satz üben</ion-title>
+      <ion-title>{{ t('practiseTitle') }}</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content>
@@ -25,19 +25,19 @@
         :rows="3"
         autocapitalize="sentences"
         :spellcheck="false"
-        placeholder="Schreib hier deinen Satz …"
+        :placeholder="t('sentencePlaceholder')"
         @ion-input="result = null; ai = null; aiError = ''"
       />
 
       <div class="actions">
-        <ion-button fill="outline" :disabled="!text.trim()" @click="check">Prüfen</ion-button>
-        <ion-button :disabled="!canSave" @click="save">Speichern</ion-button>
+        <ion-button fill="outline" :disabled="!text.trim()" @click="check">{{ t('check') }}</ion-button>
+        <ion-button :disabled="!canSave" @click="save">{{ t('save') }}</ion-button>
       </div>
 
       <div v-if="result" class="result" :class="result.problems.length ? 'warn' : 'good'">
         <p class="verdict">
           <ion-icon :icon="result.problems.length ? alertCircleOutline : checkmarkCircleOutline" />
-          {{ result.problems.length ? 'Fast! Schau dir das an:' : 'Sieht gut aus!' }}
+          {{ result.problems.length ? t('almost') : t('looksGood') }}
         </p>
         <ul v-if="result.problems.length">
           <li v-for="p in result.problems" :key="p">{{ p }}</li>
@@ -47,27 +47,28 @@
         </ul>
       </div>
 
-      <div v-if="aiLoading" class="result ai"><ion-spinner name="dots" /> KI prüft deinen Satz …</div>
+      <div v-if="aiLoading" class="result ai"><ion-spinner name="dots" /> {{ t('aiChecking', { p: providerName }) }}</div>
       <div v-else-if="ai" class="result ai">
         <p class="verdict">
           <ion-icon :icon="sparklesOutline" />
-          {{ ai.correct ? 'Richtig! 🎉' : 'Korrektur' }}
+          {{ ai.correct ? t('aiCorrect') : t('aiCorrection') }}
+          <span class="via">{{ providerName }}</span>
         </p>
         <p v-if="!ai.correct" class="corrected serif">{{ ai.corrected }}</p>
         <p>{{ ai.explanation }}</p>
-        <p v-if="ai.alternative" class="alt"><span class="eyebrow">Noch ein Beispiel</span><br /><span class="serif">{{ ai.alternative }}</span></p>
-        <ion-button v-if="!ai.correct" size="small" fill="clear" @click="useCorrection">Korrektur übernehmen</ion-button>
+        <p v-if="ai.alternative" class="alt"><span class="eyebrow">{{ t('anotherExample') }}</span><br /><span class="serif">{{ ai.alternative }}</span></p>
+        <ion-button v-if="!ai.correct" size="small" fill="clear" @click="useCorrection">{{ t('useCorrection') }}</ion-button>
       </div>
       <p v-else-if="aiError" class="ai-error">{{ aiError }}</p>
 
       <div class="example">
-        <span class="eyebrow">Beispiel</span>
+        <span class="eyebrow">{{ t('example') }}</span>
         <p class="serif">{{ word.example.de }}</p>
         <p class="muted">{{ word.example.en }}</p>
       </div>
 
       <div v-if="previous.length" class="previous">
-        <span class="eyebrow">Deine bisherigen Sätze</span>
+        <span class="eyebrow">{{ t('previousSentences') }}</span>
         <p v-for="(s, i) in previous" :key="i" class="serif">„{{ s.text }}“</p>
       </div>
     </div>
@@ -80,8 +81,9 @@ import { IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, IonContent, Ion
 import { alertCircleOutline, bulbOutline, checkmarkCircleOutline, sparklesOutline } from 'ionicons/icons'
 import { headword, type Word } from '@/data/words'
 import { checkSentence, fitFont, type CheckResult } from '@/lib/check'
-import { getAiFeedback, type AiFeedback } from '@/lib/ai'
-import { saveSentence, state } from '@/lib/store'
+import { PROVIDERS, getAiFeedback, type AiFeedback } from '@/lib/ai'
+import { aiConfig, saveSentence, state } from '@/lib/store'
+import { lang, t, tList, tipText } from '@/lib/i18n'
 
 const props = defineProps<{ word: Word }>()
 
@@ -91,34 +93,29 @@ const ai = ref<AiFeedback | null>(null)
 const aiLoading = ref(false)
 const aiError = ref('')
 
+const providerName = computed(() => PROVIDERS[state.settings.aiProvider].name)
 const previous = computed(() => (state.sentences[props.word.id] ?? []).slice(0, 5))
 const canSave = computed(() => text.value.trim().length > 0)
 
-const PROMPTS = [
-  'Schreib über deinen Arbeitstag.',
-  'Schreib über etwas, das dir gestern passiert ist.',
-  'Schreib eine Frage, die du einem Kollegen stellen würdest.',
-  'Schreib über deine Pläne für das Wochenende.',
-  'Schreib über München oder deine Stadt.',
-  'Schreib über eine Person, die du kennst.',
-  'Schreib einen Satz mit „weil“ oder „obwohl“.',
-  'Schreib einen Satz in der Vergangenheit (Perfekt).',
-  'Schreib einen Satz über ein Hobby.',
-  'Schreib einen Satz, den du in einem Vorstellungsgespräch sagen könntest.'
-]
-const prompt = PROMPTS[Math.floor(Math.random() * PROMPTS.length)]
+// Writing prompts fit the word's level: simple topics for A1/A2, more demanding ones from B1
+const promptIndex = Math.random()
+const prompt = computed(() => {
+  const list = tList(props.word.level === 'A1' || props.word.level === 'A2' ? 'promptsEasy' : 'promptsHard')
+  return list[Math.floor(promptIndex * list.length)]
+})
 
 async function check() {
-  result.value = checkSentence(props.word, text.value)
+  result.value = checkSentence(props.word, text.value, lang.value, tipText)
   ai.value = null
   aiError.value = ''
   // AI also runs when the offline check didn't spot the word – it may be an unusual form
-  if (state.settings.aiOn && state.settings.aiKey && text.value.trim().split(/\s+/).length >= 3) {
+  const cfg = aiConfig()
+  if (cfg && text.value.trim().split(/\s+/).length >= 3) {
     aiLoading.value = true
     try {
-      ai.value = await getAiFeedback(state.settings.aiKey, props.word, text.value.trim())
+      ai.value = await getAiFeedback(cfg, props.word, text.value.trim())
     } catch (e) {
-      aiError.value = e instanceof Error ? e.message : 'AI feedback is not available right now.'
+      aiError.value = e instanceof Error ? e.message : t('aiUnavailable')
     } finally {
       aiLoading.value = false
     }
@@ -128,7 +125,7 @@ async function check() {
 function useCorrection() {
   if (!ai.value) return
   text.value = ai.value.corrected
-  result.value = checkSentence(props.word, text.value)
+  result.value = checkSentence(props.word, text.value, lang.value, tipText)
   ai.value = { ...ai.value, correct: true }
 }
 
@@ -140,11 +137,11 @@ async function save() {
   if (!result.value.usesWord && !(ai.value?.correct)) {
     const confirmed = await new Promise<boolean>(async resolve => {
       const a = await alertController.create({
-        header: 'Wort nicht erkannt',
-        message: `Ich habe „${props.word.de}“ in deinem Satz nicht gefunden. Hast du eine andere Form benutzt?`,
+        header: t('notRecognisedTitle'),
+        message: t('notRecognisedMsg', { w: props.word.de }),
         buttons: [
-          { text: 'Ändern', role: 'cancel', handler: () => resolve(false) },
-          { text: 'Trotzdem speichern', handler: () => resolve(true) }
+          { text: t('change'), role: 'cancel', handler: () => resolve(false) },
+          { text: t('saveAnyway'), handler: () => resolve(true) }
         ]
       })
       await a.present()
@@ -153,8 +150,8 @@ async function save() {
   }
   const feedback = ai.value ? `${ai.value.corrected} — ${ai.value.explanation}` : undefined
   saveSentence(props.word.id, text.value, feedback)
-  const t = await toastController.create({ message: 'Gespeichert! Super gemacht 💪', duration: 1600, position: 'top', color: 'primary' })
-  await t.present()
+  const toast = await toastController.create({ message: t('savedToast'), duration: 1600, position: 'top', color: 'primary' })
+  await toast.present()
   close(true)
 }
 
@@ -241,6 +238,12 @@ function close(saved = false) {
 }
 .alt {
   margin-bottom: 0;
+}
+.via {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-soft);
 }
 .ai-error {
   color: var(--bad);

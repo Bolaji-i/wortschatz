@@ -2,14 +2,24 @@ import { Capacitor } from '@capacitor/core'
 import { TextToSpeech } from '@capacitor-community/text-to-speech'
 import { LocalNotifications } from '@capacitor/local-notifications'
 import { state } from './store'
+import { t } from './i18n'
 
 export const isNative = Capacitor.isNativePlatform()
+export const platform = Capacitor.getPlatform() as 'ios' | 'android' | 'web'
 
 /** Speak German text using the phone's text-to-speech engine. */
 export async function speak(text: string) {
   try {
     await TextToSpeech.stop()
-    await TextToSpeech.speak({ text, lang: 'de-DE', rate: state.settings.speechRate, pitch: 1, volume: 1, category: 'ambient' })
+    await TextToSpeech.speak({
+      text,
+      lang: 'de-DE',
+      rate: state.settings.speechRate,
+      pitch: 1,
+      volume: 1,
+      // iOS: 'playback' keeps pronunciation audible even when the silent switch is on
+      category: 'playback'
+    })
   } catch (e) {
     // Fallback for browsers where the plugin isn't available
     if ('speechSynthesis' in window) {
@@ -43,8 +53,8 @@ export async function syncReminder(): Promise<boolean> {
     notifications: [
       {
         id: REMINDER_ID,
-        title: 'Zeit für neue Wörter 📚',
-        body: `${state.settings.dailyGoal} neue Wörter warten auf dich. Bleib dran!`,
+        title: t('reminderTitle'),
+        body: t('reminderBody', { n: state.settings.dailyGoal }),
         schedule: { on: { hour, minute }, allowWhileIdle: true }
       }
     ]

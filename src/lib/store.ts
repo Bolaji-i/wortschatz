@@ -2,6 +2,7 @@ import { reactive, watch, computed } from 'vue'
 import { Preferences } from '@capacitor/preferences'
 import { LEVELS, WORDS, WORDS_BY_LEVEL, WORD_BY_ID, type Level, type Word } from '@/data/words'
 import { addDays, dateKey, daysBetween } from './date'
+import type { AiConfig, AiProvider } from './ai'
 
 /** Days until the next review for each Leitner box. Box 6+ counts as mastered. */
 export const INTERVALS = [1, 2, 4, 7, 15, 30, 60, 120]
@@ -35,9 +36,16 @@ export interface Settings {
   reminderTime: string
   speechRate: number
   aiOn: boolean
-  aiKey: string
+  /** which AI service checks sentences */
+  aiProvider: AiProvider
+  /** one API key per provider, kept only on this device */
+  aiKeys: Record<AiProvider, string>
+  /** optional model per provider ('' = provider default) */
+  aiModels: Record<AiProvider, string>
   /** false until the first-run setup (levels + daily goal) has been completed */
   onboarded: boolean
+  /** interface language – the learned words are always German */
+  uiLang: 'de' | 'en'
 }
 
 export const MIN_GOAL = 1
@@ -54,18 +62,30 @@ export interface AppState {
 
 const STORAGE_KEY = 'wortschatz-state-v1'
 
+/** German devices get a German interface, everyone else English. */
+function deviceUiLang(): 'de' | 'en' {
+  try {
+    return (navigator.language || '').toLowerCase().startsWith('de') ? 'de' : 'en'
+  } catch {
+    return 'en'
+  }
+}
+
 function freshState(): AppState {
   return {
     version: 1,
     settings: {
       dailyGoal: 5,
-      levels: ['A2', 'B1', 'B2'],
+      levels: ['A1', 'A2'],
       reminderOn: false,
       reminderTime: '19:00',
       speechRate: 0.9,
       aiOn: false,
-      aiKey: '',
-      onboarded: false
+      aiProvider: 'anthropic',
+      aiKeys: { anthropic: '', openai: '', gemini: '' },
+      aiModels: { anthropic: '', openai: '', gemini: '' },
+      onboarded: false,
+      uiLang: deviceUiLang()
     },
     days: {},
     cards: {},
@@ -102,14 +122,56 @@ export async function persist() {
   await Preferences.set({ key: STORAGE_KEY, value: JSON.stringify(state) })
 }
 
+/** Words whose ID changed between versions (old → new), so progress on them is kept. */
+const RENAMED_IDS: Record<string, string> = {
+  'adj-zusammen': 'adv-zusammen', // 1.5: moved to A1 as an adverb
+  'adj-selten': 'adv-selten'
+}
+
+function renameIds(data: Partial<AppState>) {
+  for (const [from, to] of Object.entries(RENAMED_IDS)) {
+    for (const rec of [data.cards, data.sentences] as Record<string, unknown>[]) {
+      if (rec && from in rec) {
+        if (!(to in rec)) rec[to] = rec[from]
+        delete rec[from]
+      }
+    }
+    for (const day of Object.values(data.days ?? {})) {
+      day.words = [...new Set(day.words.map(id => (id === from ? to : id)))]
+      day.practised = [...new Set(day.practised.map(id => (id === from ? to : id)))]
+    }
+  }
+}
+
 function applyState(data: Partial<AppState>) {
+  renameIds(data)
   const base = freshState()
+  const saved = (data.settings ?? {}) as Partial<Settings> & { aiKey?: string }
+  const settings: Settings = {
+    ...base.settings,
+    ...saved,
+    aiKeys: { ...base.settings.aiKeys, ...(saved.aiKeys ?? {}) },
+    aiModels: { ...base.settings.aiModels, ...(saved.aiModels ?? {}) }
+  }
+  // Versions before 1.5 had a German-only interface – keep it for existing users
+  if (data.settings && !saved.uiLang) settings.uiLang = 'de'
+  // Version 1.3 and older stored a single Claude key
+  if (saved.aiKey && !settings.aiKeys.anthropic) settings.aiKeys.anthropic = saved.aiKey
+  delete (settings as Partial<Settings> & { aiKey?: string }).aiKey
   Object.assign(state, {
     ...base,
     ...data,
-    settings: { ...base.settings, ...(data.settings ?? {}) },
+    settings,
     streak: { ...base.streak, ...(data.streak ?? {}) }
   })
+}
+
+/** The AI settings currently in use, or null if AI feedback is off or has no key. */
+export function aiConfig(): AiConfig | null {
+  const s = state.settings
+  const key = s.aiKeys[s.aiProvider]?.trim()
+  if (!s.aiOn || !key) return null
+  return { provider: s.aiProvider, key, model: s.aiModels[s.aiProvider] }
 }
 
 /** Call when the app opens or comes back to the foreground: handles a new day. */
@@ -299,14 +361,19 @@ export const stats = computed(() => {
   }
 })
 
+/** Backup text. API keys are left out so a shared backup never leaks them. */
 export function exportData(): string {
-  return JSON.stringify(state)
+  const copy = JSON.parse(JSON.stringify(state)) as AppState
+  copy.settings.aiKeys = { anthropic: '', openai: '', gemini: '' }
+  return JSON.stringify(copy)
 }
 
 export function importData(json: string) {
   const data = JSON.parse(json)
-  if (!data || data.version !== 1 || typeof data.cards !== 'object') throw new Error('This doesn’t look like a Wortschatz backup.')
+  if (!data || data.version !== 1 || typeof data.cards !== 'object') throw new Error('This doesn’t look like a Super Wortschatz backup.')
+  const keys = { ...state.settings.aiKeys }
   applyState(data)
+  for (const p of Object.keys(keys) as AiProvider[]) if (!state.settings.aiKeys[p]) state.settings.aiKeys[p] = keys[p]
   refreshToday()
 }
 

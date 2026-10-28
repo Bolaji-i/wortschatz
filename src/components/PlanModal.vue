@@ -1,22 +1,33 @@
 <template>
   <ion-header v-if="!welcome">
     <ion-toolbar>
-      <ion-title>Dein Lernplan</ion-title>
+      <ion-title>{{ t('planTitle') }}</ion-title>
       <ion-buttons slot="end">
-        <ion-button @click="done">Fertig</ion-button>
+        <ion-button @click="done">{{ t('done') }}</ion-button>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
   <ion-content>
     <div class="page">
       <header v-if="welcome" class="welcome">
-        <p class="eyebrow">Willkommen bei Wortschatz</p>
-        <h1 class="big-title">Lass uns deinen Lernplan einrichten</h1>
-        <p class="muted">Du kannst das jederzeit unter „Mehr“ oder oben auf der Seite „Heute“ ändern.</p>
+        <div class="lang-switch" role="group" :aria-label="t('appLanguage')">
+          <button
+            v-for="l in UI_LANGS"
+            :key="l.id"
+            type="button"
+            :class="{ on: state.settings.uiLang === l.id }"
+            @click="state.settings.uiLang = l.id"
+          >
+            {{ l.label }}
+          </button>
+        </div>
+        <p class="eyebrow">{{ t('welcomeEyebrow') }}</p>
+        <h1 class="big-title">{{ t('welcomeTitle') }}</h1>
+        <p class="muted">{{ t('welcomeHint') }}</p>
       </header>
       <StudyPlan @change="onChange" />
       <ion-button expand="block" size="large" class="go" @click="done">
-        {{ welcome ? 'Los geht’s' : 'Fertig' }}
+        {{ welcome ? t('letsGo') : t('done') }}
       </ion-button>
     </div>
   </ion-content>
@@ -27,6 +38,7 @@ import { IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, mod
 import StudyPlan from './StudyPlan.vue'
 import { applyPlan, state } from '@/lib/store'
 import { syncReminder } from '@/lib/device'
+import { UI_LANGS, t } from '@/lib/i18n'
 
 defineProps<{ welcome?: boolean }>()
 
@@ -47,6 +59,27 @@ function done() {
 </script>
 
 <style scoped>
+.lang-switch {
+  display: inline-flex;
+  gap: 4px;
+  padding: 3px;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+}
+.lang-switch button {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 600;
+}
+.lang-switch button.on {
+  background: var(--ink);
+  color: var(--paper);
+}
 .welcome {
   padding: calc(var(--ion-safe-area-top, 0px) + 24px) 0 18px;
 }

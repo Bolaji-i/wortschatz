@@ -22,42 +22,65 @@ export function usesWord(word: Word, sentence: string): boolean {
 
 const VERB_FINAL = ['obwohl', 'ob', 'damit', 'sobald', 'indem', 'sodass', 'während', 'weil', 'dass', 'wenn']
 
-/** Offline checks. They can't judge grammar fully, but they catch the most common slips. */
-export function checkSentence(word: Word, raw: string): CheckResult {
+const MSG = {
+  en: {
+    notUsed: (w: string, hint: string) => `Your sentence doesn’t seem to use “${w}” (or a form of it like ${hint}).`,
+    tooShort: 'Make it a full sentence – aim for at least 4 words.',
+    capital: 'Start the sentence with a capital letter.',
+    punctuation: 'End the sentence with . ! or ?',
+    nounCap: (w: string) => `German nouns are always capitalised: “${w}”.`,
+    gender: (h: string, g: string) => `Remember the gender: ${h} (${g}).`,
+    genders: { der: 'masculine', die: 'feminine', das: 'neuter' },
+    forms: 'Forms',
+    usage: 'Usage',
+    comma: 'With words like weil, dass, obwohl, ob the clause is usually separated by a comma and the verb goes to the end.'
+  },
+  de: {
+    notUsed: (w: string, hint: string) => `Dein Satz scheint „${w}“ nicht zu enthalten (oder eine Form wie ${hint}).`,
+    tooShort: 'Schreib einen ganzen Satz – mindestens 4 Wörter.',
+    capital: 'Beginne den Satz mit einem Großbuchstaben.',
+    punctuation: 'Beende den Satz mit . ! oder ?',
+    nounCap: (w: string) => `Nomen schreibt man im Deutschen immer groß: „${w}“.`,
+    gender: (h: string, g: string) => `Denk an das Genus: ${h} (${g}).`,
+    genders: { der: 'maskulin', die: 'feminin', das: 'neutrum' },
+    forms: 'Formen',
+    usage: 'Gebrauch',
+    comma: 'Bei weil, dass, obwohl, ob steht meist ein Komma vor dem Nebensatz, und das Verb steht am Ende.'
+  }
+}
+
+/**
+ * Offline checks. They can't judge grammar fully, but they catch the most common slips.
+ * `lang` is the interface language; `tip` lets the caller translate the word's usage tip.
+ */
+export function checkSentence(word: Word, raw: string, lang: 'de' | 'en' = 'en', tip: (s: string) => string = s => s): CheckResult {
+  const m = MSG[lang]
   const sentence = raw.trim()
   const problems: string[] = []
   const tips: string[] = []
   const found = usesWord(word, sentence)
 
-  if (!found) {
-    problems.push(`Your sentence doesn’t seem to use “${word.de}” (or a form of it like ${formsHint(word)}).`)
-  }
+  if (!found) problems.push(m.notUsed(word.de, formsHint(word)))
 
   const count = tokens(sentence).length
-  if (count < 4) problems.push('Make it a full sentence – aim for at least 4 words.')
+  if (count < 4) problems.push(m.tooShort)
 
-  if (sentence && sentence[0] !== sentence[0].toUpperCase()) {
-    problems.push('Start the sentence with a capital letter.')
-  }
-  if (sentence && !/[.!?]$/.test(sentence)) {
-    tips.push('End the sentence with . ! or ?')
-  }
+  if (sentence && sentence[0] !== sentence[0].toUpperCase()) problems.push(m.capital)
+  if (sentence && !/[.!?]$/.test(sentence)) tips.push(m.punctuation)
 
   if (word.pos === 'noun') {
     const forms = [word.de, word.plural?.replace(/^die /, '')].filter(Boolean) as string[]
     const words = sentence.split(/[\s.,!?;:]+/)
     const lowerNoun = words.find(w => forms.some(f => w.toLowerCase().startsWith(f.toLowerCase())) && w[0] === w[0].toLowerCase())
-    if (lowerNoun) problems.push(`German nouns are always capitalised: “${capitalize(lowerNoun)}”.`)
-    if (word.article) tips.push(`Remember the gender: ${word.article} ${word.de} (${word.article === 'der' ? 'masculine' : word.article === 'die' ? 'feminine' : 'neuter'}).`)
+    if (lowerNoun) problems.push(m.nounCap(capitalize(lowerNoun)))
+    if (word.article) tips.push(m.gender(`${word.article} ${word.de}`, m.genders[word.article]))
   }
 
-  if (word.pos === 'verb' && word.conj) tips.push(`Forms: ${word.conj}`)
-  if (word.usage) tips.push(`Usage: ${word.usage}`)
+  if (word.pos === 'verb' && word.conj) tips.push(`${m.forms}: ${word.conj}`)
+  if (word.usage) tips.push(`${m.usage}: ${tip(word.usage)}`)
 
   const t = tokens(sentence)
-  if (t.some(x => VERB_FINAL.includes(x)) && /,/.test(sentence) === false && count > 6) {
-    tips.push('With words like weil, dass, obwohl, ob the clause is usually separated by a comma and the verb goes to the end.')
-  }
+  if (t.some(x => VERB_FINAL.includes(x)) && /,/.test(sentence) === false && count > 6) tips.push(m.comma)
 
   return { usesWord: found, problems, tips }
 }

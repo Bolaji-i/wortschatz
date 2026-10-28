@@ -24,12 +24,16 @@ export function lastNDays(n: number, end = dateKey()): string[] {
   return Array.from({ length: n }, (_, i) => addDays(end, i - n + 1))
 }
 
-const WEEKDAYS = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']
+let locale = 'de-DE'
+/** Set by the interface-language setting (see i18n.ts). */
+export function setDateLocale(l: string) {
+  locale = l
+}
 
 export function weekdayShort(key: string) {
-  return WEEKDAYS[parseKey(key).getDay()]
+  return parseKey(key).toLocaleDateString(locale, { weekday: 'short' }).replace('.', '').slice(0, 3)
 }
 
 export function prettyDate(key: string) {
-  return parseKey(key).toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' })
+  return parseKey(key).toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long' })
 }
